@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/rails,ruby
 
+### Pivotal ###
+.pairs
+
 ### Rails ###
 *.rbc
 capybara-*.html
