@@ -7,7 +7,7 @@ When /^I click download on "(.*)"$/ do |img_name|
     pending # Write code here that turns the phrase above into concrete actions
 end
 
-When /^I fill in "(.*)" in "(.*)"$/ do |name, button|
+When /^I fill in "(.*)" and press "(.*)"$/ do |name, button|
     pending # Write code here that turns the phrase above into concrete actions
 end
 
