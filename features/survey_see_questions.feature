@@ -9,11 +9,6 @@ Background: questions in survey
     | Gender?   | MultChoice | M, F, Apache Attack Helicopter, Other |
     | Type      | CheckBox   | Automaton, Human, Other               |
 
-Scenario: start the pre-test survey
-  Given I am on the mosaic test home page
-  And I press "Begin Test"
-  Then I should see "Gender"
-
 Scenario: survey questions exist
   Given I am on the survey page for question 1
   Then I should see the following: "Gender?", "M", "F", "Apache Attack Helicopter", "Other"
