@@ -7,14 +7,12 @@ Background: questions in survey
   Given I am on the mosiac test home page
 
 Scenario: start the pre-test survey, if it has never been taken
-  Given I am on the mosaic test home page
   And I have never taken the survey before
   Then I should see "Begin Test"
   When I press "Begin Test"
   Then I should be on the survey page
 
 Scenario: start the pre-test survey, if it has been taken
-  Given I am on the mosaic test home page
   And I have taken the survey before
   Then I should see "Begin Mosaic Test"
   When I press "Begin Mosaic Test"
