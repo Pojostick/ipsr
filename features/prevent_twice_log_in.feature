@@ -5,13 +5,12 @@ Feature:  Prevent same user from being logged twice
   I want to collect the first completed data from the same user
   
 Background: test subject has finished a game and is trying to log in again
-   Given I am on the login page
-   And I have already logged in with username: "cloud7"
+   Given I have a "play a game" page cookie set to "Name=foo"
+   And I have already finished a game with result: "first_result"
    
-Scenario: try to log in with same username
-   When I type in with username: "cloud7"
-   And I press "log in"
-   Then I should see "cloud7 has already logged in. The new game result won't be recorded."
-   And I should be able to play the game again to get a new result:"my result"
-   And I should not see "my result" in the gallery
+Scenario: try to play again with same cookie
+   When I go to the "play a game" page with cookie: "Name=foo"
+   Then I should see "You have already finished the game once. Future results won't be recorded."
+   And I should be able to play the game again to get a new result:"second_result"
+   And I should not see "second_result" in the gallery
    

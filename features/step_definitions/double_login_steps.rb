@@ -1,17 +1,18 @@
-Given /^I am on the (.+)$/ do |page_name|
+Given /^I have a "([^\"]+)" page cookie set to "([^\"]+)"$/ do |game, cookie|
     pending #  visit path_to(page_name)
 end
 
-When /^I have already logged in with username: "([^"]*)"$/ do |username|
+When /^I have already finished a game with result: "([^"]*)"$/ do |myresult|
     pending # Write code here that turns the phrase above into concrete actions
 end
 
-When /^I type in with username: "([^"]*)"$/ do |username|
+When /^I go to the "([^\"]+)" page with cookie: "([^\"]+)"$/ do |game, cookie|
     pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then /^I should see "(.*) has already logged in. The new game result won't be recorded."$/ do |username|
+Then /^I should see "([^\"]+)"$/ do |notice|
     pending # Write code here that turns the phrase above into concrete actions
+    # "You have already finished the game once. Future results won't be recorded."
 end
 
 Then /^I should be able to play the game again to get a new result: "([^"]*)"$/ do |my_result|
