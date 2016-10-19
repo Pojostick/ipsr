@@ -1,7 +1,7 @@
 Given(/^I am on the (.*) page$/) do |page|
   pending # Write code here that turns the phrase above into concrete actions
 end
-Then(/^I should see (.*)$/) do |arg1|
+Then(/^I should see images$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 

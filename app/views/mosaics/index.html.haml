@@ -1,0 +1,33 @@
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    = javascript_include_tag "mosaics_index.js"
+  %body
+    %h1{:align => "center"} Mosaic Construction Test
+    - if flash[:notice]
+      %h2{:align => "center"} #{flash[:notice]}
+    #centerer.centerer
+      #selection.selection
+        %table{:align => "center", :style => "margin-bottom: 50px;"}
+          %tr
+            %th
+              %h1{:align => "left", :style => "margin: 5px; font-variant: small-caps; width: 110%;"} Time Remaining:
+              %div{:id => "timer-bar"}
+                %h2{:id => "timer", :style => "margin: 0px"}
+        %table{:align => "center"}
+          - @all_colors.each_slice(3).with_index do |slice, row|
+            %tr
+            - slice.each_with_index do |block, column|
+              %td{:align => "center"}
+                .block{:id => "src" << (3 * row + column), :style => "background-color: #{block};"}
+      #mosaic.mosaic
+        %table{:align => "center"}
+          - @mosaic.grid.split.each_slice(8).with_index do |slice, row|
+            %tr
+            - slice.each_with_index do |color, column|
+              %td{:align => "center"}
+                - if color == 'transparent'
+                  .block{:id => 8 * row + column}
+                - else
+                  .block{:id => 8 * row + column, :style => "background-color: #{color};"}
+    %div{:id => "APPDATA", :mosaic_id => @mosaic.id, :style => "display: none;"}
