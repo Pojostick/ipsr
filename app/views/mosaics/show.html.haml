@@ -8,7 +8,7 @@
         %table{:align => "center"}
           - @mosaic.grid.split.each_slice(8).with_index do |slice, row|
             %tr
-            - slice.each_with_index do |color, column|
-              %td{:align => "center"}
-                .block{:id => 8 * row + column, :style => "background-color: #{color};"}
+              - slice.each_with_index do |color, column|
+                %td{:align => "center"}
+                  .block{:id => 8 * row + column, :style => "background-color: #{color};"}
     %h2 Steps dump: #{@mosaic.steps}
