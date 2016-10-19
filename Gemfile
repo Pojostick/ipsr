@@ -21,6 +21,7 @@ group :test do
   gem 'guard-cucumber'
   gem 'capybara'
   gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
   gem 'guard-rspec'
   gem 'simplecov', :require => false
   gem 'factory_girl_rails' # if using FactoryGirl
