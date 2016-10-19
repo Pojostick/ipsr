@@ -9,7 +9,7 @@ Background: test subject has finished a game and is trying to log in again
    And I have already finished a game with result: "first_result"
    
 Scenario: try to play again with same cookie
-   When I go to the "play a game" page with cookie: "Name=foo"
+   When I play on the "play a game" page with cookie: "Name=foo"
    Then I should see "You have already finished the game once. Future results won't be recorded."
    And I should be able to play the game again to get a new result:"second_result"
    And I should not see "second_result" in the gallery
