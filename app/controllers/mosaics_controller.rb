@@ -11,8 +11,9 @@ class MosaicsController < ApplicationController
     @all_colors = Mosaic.colors
     unless params[:mosaic_id]
       # Create a new mosaic and retrieve id
-      flash[:notice] = "No ID found"
-      params[:mosaic_id] = 1
+      flash[:notice] = "No ID detected! "
+      flash.keep
+      redirect_to :controller => :mosaics, :action => :new and return
     end
     @mosaic = Mosaic.find params[:mosaic_id]
   end
@@ -20,17 +21,34 @@ class MosaicsController < ApplicationController
   # Create before test and put id into session hash
   def new
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!)
-    redirect_to '/mosaics'
+    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => '')
+    if flash[:notice]
+      flash[:notice] += "Created test ##{@mosaic.id}"
+    else
+      flash[:notice] = "Created test ##{@mosaic.id}"
+    end
+    flash.keep
+    redirect_to :controller => :mosaics, :action => :index, :mosaic_id => @mosaic.id
   end
   
   # Called every 5 seconds OR (hard limit) number of moves
   # used to save latest changes while taking test
   def autosave
-    @id = params[:mosaic_id]
+    @mosaic = Mosaic.find params[:mosaic_id]
+    timestamp = params[:time]
+    tileId = params[:tileId]
+    color = params[:color]
     # Append to steps
+    @mosaic.update_attributes!(:steps => @mosaic.steps + "#{timestamp} #{tileId} #{color},")
     # Update grid
-    render :nothing
+    if tileId && tileId.to_i < 80
+      newGrid = @mosaic.grid.split
+      newGrid[tileId.to_i] = color
+      @mosaic.update_attributes!(:grid => newGrid.join(' '))
+    end
+    flash[:notice] = @mosaic.grid
+    @all_colors = Mosaic.colors
+    render "index"
   end
   
   def show
