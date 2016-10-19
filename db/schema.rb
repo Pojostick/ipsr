@@ -14,8 +14,10 @@
 ActiveRecord::Schema.define(version: 20161019033019) do
 
   create_table "mosaics", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "grid"
+    t.string   "steps",      default: "--- []\n"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
 end
