@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Mosaic Maker</title>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+        <style>
+            html {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+            }
+            
+            body {
+                color: #ddeeff;
+                background-position: center center;
+                background-attachment: fixed;
+                background-size: cover;
+                background-image: url('http://hdblackwallpaper.com/wallpaper/2015/08/hd-wallpapers-abstract-black-15-desktop-background.jpg');
+                margin: 0;
+                width: 100%;
+                min-height: 100%;
+            }
+        
+            .button {
+                display: inline-block;
+                border-radius: 4px;
+                background-color: #7f7f7f;
+                opacity: 0.5;
+                border: none;
+                color: #ddeeff;
+                text-align: center;
+                font-size: 24px;
+                padding: 8px;
+                width: auto !important;
+                transition: all 0.5s;
+                cursor: pointer;
+                margin: 5px;
+                
+                z-index = 1;
+            }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+    
+            .button span:after {
+                content: ' >';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+            
+            .button:hover {
+                opacity: 1;
+                transition: 0.5s;
+            }
+    
+            .button:hover span {
+                padding-right: 25px;
+            }
+            
+            .button:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+            
+            table {
+                border: 3px ridge;
+            }
+
+            .block {
+                width: 50px;
+                height: 50px;
+                border: 2px ridge rgb(127, 127, 127);
+                border-collapse: collapse;
+                background: rgba(255, 255, 255, 0.25);
+                transition: box-shadow 0.25s, border 0.5s, transform 0.75s;
+                transition-timing-function: cubic-bezier(0.500, 0.000, 0.500, 1.500);;
+            }
+            
+            .block:hover {
+                border: 2px ridge rgb(255, 255, 255);
+                cursor: pointer;
+                -ms-transform: rotate(180deg) scale(1.5); /* IE 9 */
+                -webkit-transform: rotate(180deg) scale(1.5); /* Chrome, Safari, Opera */
+                transform: rotate(180deg) scale(1.5);
+                transition: transform 0.5s;
+                transition-timing-function: cubic-bezier(0.500, 0.000, 0.500, 1.500);;
+            }
+            
+            .glow {
+                box-shadow: 0px 0px 3px 2px #ddeeff;
+                transition: box-shadow 0s;
+            }
+            
+            .centerer {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10vh;
+            }
+            
+            .selection {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin: 5px;
+                float: left;
+            }
+
+            .mosaic {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin: 5px;
+            }
+            
+            .ui-progressbar {
+                position: relative;
+            }
+
+            #timer-bar > div {
+                background: #ddeeff;
+            }
+            
+            #timer-bar {
+                background: rgba(255, 255, 255, 0.25);
+                text-align: center;
+            }
+
+            #timer {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                font-weight: bold;
+                color: #ddeeff;
+                text-shadow: 0px 0px 5px black;
+            }
+            
+            a {
+                color: #7f7f7f;
+                float: right;
+                text-shadow: 3px 3px 2px #000000;
+                text-decoration: none;
+            }
+        </style>
+	</head>
+	<body>
+        <div id="centerer" class="centerer">
+            <div id="selection" class="selection">
+                <table align="center" style="margin-bottom: 50px;">
+                    <tr>
+                        <th>
+                            <h1 align="left" style="margin: 5px; font-variant: small-caps; width: 110%;">Time Remaining:</h1>
+                            <div id="timer-bar"><h2 id="timer" style="margin: 0px"></h2></div>
+                        </th>
+                    </tr>
+                    <tr><td align="center">(x10 speed)</td></tr>
+                </table>
+                <table align="center">
+                    <tr>
+                        <td align="center"><div class="block" id="src1"/></td>
+                        <td align="center"><div class="block" id="src2"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="src3"/></td>
+                        <td align="center"><div class="block" id="src4"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="src5"/></td>
+                        <td align="center"><div class="block" id="src6"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="src7"/></td>
+                        <td align="center"><div class="block" id="src8"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="src9"/></td>
+                        <td align="center"><div class="block" id="src10"/></td>
+                    </tr>
+                </table>
+                <div class="button" onclick="submit()"style="margin-top: 50px;"><span>Submit</span></div>
+            </div>
+            <div id="mosaic" class="mosaic">
+                <table align="center">
+                    <tr>
+                        <td align="center"><div class="block" id="1"/></td>
+                        <td align="center"><div class="block" id="2"/></td>
+                        <td align="center"><div class="block" id="3"/></td>
+                        <td align="center"><div class="block" id="4"/></td>
+                        <td align="center"><div class="block" id="5"/></td>
+                        <td align="center"><div class="block" id="6"/></td>
+                        <td align="center"><div class="block" id="7"/></td>
+                        <td align="center"><div class="block" id="8"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="9"/></td>
+                        <td align="center"><div class="block" id="10"/></td>
+                        <td align="center"><div class="block" id="11"/></td>
+                        <td align="center"><div class="block" id="12"/></td>
+                        <td align="center"><div class="block" id="13"/></td>
+                        <td align="center"><div class="block" id="14"/></td>
+                        <td align="center"><div class="block" id="15"/></td>
+                        <td align="center"><div class="block" id="16"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="17"/></td>
+                        <td align="center"><div class="block" id="18"/></td>
+                        <td align="center"><div class="block" id="19"/></td>
+                        <td align="center"><div class="block" id="20"/></td>
+                        <td align="center"><div class="block" id="21"/></td>
+                        <td align="center"><div class="block" id="22"/></td>
+                        <td align="center"><div class="block" id="23"/></td>
+                        <td align="center"><div class="block" id="24"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="25"/></td>
+                        <td align="center"><div class="block" id="26"/></td>
+                        <td align="center"><div class="block" id="27"/></td>
+                        <td align="center"><div class="block" id="28"/></td>
+                        <td align="center"><div class="block" id="29"/></td>
+                        <td align="center"><div class="block" id="30"/></td>
+                        <td align="center"><div class="block" id="31"/></td>
+                        <td align="center"><div class="block" id="32"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="33"/></td>
+                        <td align="center"><div class="block" id="34"/></td>
+                        <td align="center"><div class="block" id="35"/></td>
+                        <td align="center"><div class="block" id="36"/></td>
+                        <td align="center"><div class="block" id="37"/></td>
+                        <td align="center"><div class="block" id="38"/></td>
+                        <td align="center"><div class="block" id="39"/></td>
+                        <td align="center"><div class="block" id="40"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="41"/></td>
+                        <td align="center"><div class="block" id="42"/></td>
+                        <td align="center"><div class="block" id="43"/></td>
+                        <td align="center"><div class="block" id="44"/></td>
+                        <td align="center"><div class="block" id="45"/></td>
+                        <td align="center"><div class="block" id="46"/></td>
+                        <td align="center"><div class="block" id="47"/></td>
+                        <td align="center"><div class="block" id="48"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="49"/></td>
+                        <td align="center"><div class="block" id="50"/></td>
+                        <td align="center"><div class="block" id="51"/></td>
+                        <td align="center"><div class="block" id="52"/></td>
+                        <td align="center"><div class="block" id="53"/></td>
+                        <td align="center"><div class="block" id="54"/></td>
+                        <td align="center"><div class="block" id="55"/></td>
+                        <td align="center"><div class="block" id="56"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="57"/></td>
+                        <td align="center"><div class="block" id="58"/></td>
+                        <td align="center"><div class="block" id="59"/></td>
+                        <td align="center"><div class="block" id="60"/></td>
+                        <td align="center"><div class="block" id="61"/></td>
+                        <td align="center"><div class="block" id="62"/></td>
+                        <td align="center"><div class="block" id="63"/></td>
+                        <td align="center"><div class="block" id="64"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="65"/></td>
+                        <td align="center"><div class="block" id="66"/></td>
+                        <td align="center"><div class="block" id="67"/></td>
+                        <td align="center"><div class="block" id="68"/></td>
+                        <td align="center"><div class="block" id="69"/></td>
+                        <td align="center"><div class="block" id="70"/></td>
+                        <td align="center"><div class="block" id="71"/></td>
+                        <td align="center"><div class="block" id="72"/></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><div class="block" id="73"/></td>
+                        <td align="center"><div class="block" id="74"/></td>
+                        <td align="center"><div class="block" id="75"/></td>
+                        <td align="center"><div class="block" id="76"/></td>
+                        <td align="center"><div class="block" id="77"/></td>
+                        <td align="center"><div class="block" id="78"/></td>
+                        <td align="center"><div class="block" id="79"/></td>
+                        <td align="center"><div class="block" id="80"/></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <a href="#" onclick="spin()">Do Not Press!</a>
+	</body>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $(".centerer")
+                .droppable({
+                    drop: function(event, ui) {
+                        if (ui.draggable[0].id.substring(0, 3) != "src") {
+                            console.log(Date.now() + ": Cleared " + ui.draggable[0].id + " of " + ui.draggable.css("background-color"));
+                            ui.draggable.css("background-color", "rgba(255, 255, 255, 0.25)");
+                        }
+                    }
+                });
+            $(".mosaic table")
+                .droppable({
+                    greedy: true
+                });
+            $(".mosaic .block")
+                .draggable({
+                    helper: "clone",
+                    cursor: "move",
+                    cursorAt: { top: 25, left: 25 }
+                })
+                .addClass("ui-widget-content")
+                .droppable({
+                    classes: {
+                        "ui-droppable-hover": "glow"
+                    },
+                    drop: function(event, ui) {
+                        if (ui.draggable[0].id.substring(0, 3) == "src") {
+                            console.log(Date.now() + ": Changed " + $(this)[0].id + " from " + $(this).css("background-color") + " to " + ui.draggable.css("background-color"));
+                            $(this).css("background-color", ui.draggable.css("background-color"));
+                        } else {
+                            console.log(Date.now() + ": Swapped " + $(this)[0].id + " and " + ui.draggable[0].id + " switching " + $(this).css("background-color") + " with " + ui.draggable.css("background-color"));
+                            temp = $(this).css("background-color");
+                            $(this).css("background-color", ui.draggable.css("background-color"));
+                            ui.draggable.css("background-color", temp);
+                        }
+                    },
+                    greedy: true,
+                    tolerance: "pointer"
+                });
+            $(".selection .block")
+                .draggable({
+                    helper: "clone",
+                    cursor: "move",
+                    cursorAt: { top: 25, left: 25 }
+                })
+                .addClass("ui-widget-content");
+
+            $(".selection .block").each(function() {
+                $(this).css("background-color", "hsl(" + Math.floor(360*Math.random()) + ", " + Math.floor(100*(1-Math.random()*Math.random())) + "%, " + Math.floor(50*(Math.random()+Math.random())) + "%)");
+            });
+            submitted = false;
+            submit = function() {
+                if (submitted) {
+                    alert("Already submitted results. Thanks! [DEVS: open console for output log]");
+                    return;
+                }
+                submitted = true;
+                $(".block").draggable("disable");
+                console.log(Date.now() + ": End");
+                clearTimeout(timer);
+                alert("Thanks for submitting your survey. The test is now over. [DEVS: open console for output log]");
+            }
+            var time = 1800;
+            $( "#timer-bar" ).progressbar({
+                value: false
+            });
+            timer = setTimeout(function progress() {
+                $("#timer-bar").progressbar("value", time / 18);
+                $("#timer").text(Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + time % 60);
+                $("#timer-bar > div").css("background-color", "hsl(" + Math.floor(time / 15) + ", 100%, 50%)")
+                if (time > 0) {
+                    time -= 1;
+                    timer = setTimeout(progress, 100);
+                } else {
+                    submit();
+                }
+            }, 0);
+            spin = function() {
+                R=0; x1=.0071; y1=.0051; x2=.27; y2=.23; x3=1.17; y3=.241; x4=400; y4=300; x5=220; y5=170; DI=document.getElementsByTagName("div"); DIL=DI.length; A=function(){for(i=0; i-DIL; i++){DIS=DI[ i ].style; DIS.position='absolute'; DIS.left=(Math.sin(R*x1+i*x2+x3)*x4+x5)+"px"; DIS.top=(Math.cos(R*y1+i*y2+y3)*y4+y5)+"px"}R++}
+                setInterval(A,5); void(0);
+            }
+            console.log(Date.now() + ": Start");
+        });
+    </script>
+</html>
