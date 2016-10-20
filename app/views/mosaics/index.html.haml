@@ -19,7 +19,7 @@
             %tr
               - slice.each_with_index do |block, column|
                 %td{:align => "center"}
-                  .block{:id => "src" << (3 * row + column), :style => "background-color: #{block};"}
+                  .block{:id => "src#{3 * row + column}", :style => "background-color: #{block};"}
       #mosaic.mosaic
         %table{:align => "center"}
           - @mosaic.grid.split.each_slice(8).with_index do |slice, row|
