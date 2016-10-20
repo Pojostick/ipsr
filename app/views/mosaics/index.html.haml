@@ -14,7 +14,7 @@
               %h1{:align => "left", :style => "margin: 5px; font-variant: small-caps; width: 110%;"} Time Remaining:
               %div{:id => "timer-bar"}
                 %h2{:id => "timer", :style => "margin: 0px"}
-        %table{:align => "center"}
+        %table#selection_colors{:align => "center"}
           - @all_colors.each_slice(3).with_index do |slice, row|
             %tr
               - slice.each_with_index do |block, column|
