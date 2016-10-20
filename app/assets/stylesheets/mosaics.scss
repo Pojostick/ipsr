@@ -1,0 +1,107 @@
+// Place all the styles related to the Mosaics controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+html {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    color: black;
+    background-color: white;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-image: url('http://pawderosaranch.com/wp-content/uploads/2013/11/shutterstock_146878922.jpg');
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+table {
+    border: 3px ridge;
+    background-color: rgba(127, 127, 127, 0.25);
+}
+
+.block {
+    width: 50px;
+    height: 50px;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75);
+    border: 2px ridge rgb(63, 63, 63);
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.25);
+    background-image: image-url('block_gloss.png');
+    background-size: cover;
+    opacity: 1;
+    transition: opacity 0.5s, box-shadow 0.25s, border 0.5s, transform 0.75s;
+    transition-timing-function: cubic-bezier(0.500, 0.000, 0.500, 1.500);;
+}
+
+.block:hover {
+    border: 2px ridge black;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px 0px black;
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+    transform: scale(1.5);
+    transition: opacity 0.25s, box-shadow 0.25s, transform 0.25s ease-out;
+}
+
+.glow {
+    box-shadow: 0px 0px 7px 1px white;
+    transition: box-shadow 0s;
+}
+
+.centerer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10vh;
+}
+
+.selection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+    float: left;
+}
+
+.mosaic {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+}
+
+.ui-progressbar {
+    position: relative;
+}
+
+#timer-bar > div {
+    background: black;
+}
+
+#timer-bar {
+    background: rgba(255, 255, 255, 0.25);
+    text-align: center;
+}
+
+#timer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    color: #ddeeff;
+    text-shadow: 0px 0px 5px black;
+}
+
+a {
+    color: #7f7f7f;
+    float: right;
+    text-shadow: 3px 3px 2px #000000;
+    text-decoration: none;
+}
