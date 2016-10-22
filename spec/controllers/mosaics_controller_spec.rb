@@ -14,15 +14,14 @@ RSpec.describe MosaicsController, type: :controller do
             @args = {:mosaic_id => "01", :time => "", :tileId => "0", :color => "8060930"}
             expect(Mosaic).to receive(:find).with("01").and_return(@fake_mosaic)
         end
-        
+         
         it "should create add a tile with color '8060930' in a grid" do
-            expect(@fake_mosaic).to receive(:update_attributes!).with({:steps => "#{@fake_mosaic.steps}#{@args[:time]} #{@args[:tileId]} #{@args[:color]},"})
-            expect(@fake_mosaic).to receive(:update_attributes!).with({:grid => @args[:color]})
-            post :autosave, @args
-            expect(assigns(:mosaic)).to eq(@fake_mosaic)
-            # expect(@fake_mosaic.grid).to match(/^8060930$/)
-            expect(response).to render_template(root_path) 
+             expect(@fake_mosaic).to receive(:update_attributes!).with({:steps => "#{@fake_mosaic.steps}#{@args[:time]} #{@args[:tileId]} #{@args[:color]},"})
+             expect(@fake_mosaic).to receive(:update_attributes!).with({:grid => @args[:color]})
+             post :autosave, @args
+             expect(assigns(:mosaic)).to eq(@fake_mosaic)
+             # expect(@fake_mosaic.grid).to match(/^8060930$/)
+             expect(response).to render_template(root_path) 
         end
-    end
-end
-
+    end		     
+end		 
