@@ -54,5 +54,7 @@ class MosaicsController < ApplicationController
   def show
     @mosaic = Mosaic.find(params[:id])
   end
-
+  
+  def gallery
+  end
 end
