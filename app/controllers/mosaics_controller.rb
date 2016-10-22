@@ -56,11 +56,14 @@ class MosaicsController < ApplicationController
   end
   
   def gallery
+<<<<<<< HEAD
     # renders the collection of galleries to be viewed by researchers
   end
   
   def download
     # downloads the selected mosaic and stays on the same page
     redirect_to action: "show", id: params[:id]
+=======
+>>>>>>> master
   end
 end

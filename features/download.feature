@@ -14,6 +14,7 @@ Background: images have been added in images folder
 
 Scenario: selecting image to be downloaded
   When I follow "mosaic1"
+<<<<<<< HEAD
   Then I should be on the page for mosaic1
   When I follow "mosaic2"
   Then I should be on the page for mosaic2
@@ -22,4 +23,14 @@ Scenario: downloading the image
   Given I am on the page for mosaic1
   When I press "download"
   Then I should be on the page for mosaic1
+=======
+#   Then I should be on the mosaic page
+#   When I follow "mosaic2"
+#   Then I should be on the mosaic page
+
+# Scenario: downloading the image
+#   Given I'm on the image page
+#   When I press "download"
+#   Then I should be on the mosaic page
+>>>>>>> master
 	
