@@ -15,19 +15,11 @@ module NavigationHelpers
 
     when /^the home\s?page$/
       '/'
-<<<<<<< HEAD
     when /the page for (.*)/ 
       mosaic_path(Mosaic.find_by_steps($1))
     
     when /^the gallery\s?page$/
       '/gallery'
-=======
-    when /^the gallery\s?page$/
-      '/gallery'
-    when /^the mosaic page$/
-      mosaic_path(Mosaic.find_by_id($1))
-      movie_path(Movie.find_by_title($1))
->>>>>>> master
       
     when /^the grid$/
       '/mosaics'
