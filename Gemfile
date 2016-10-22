@@ -16,6 +16,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'selenium-webdriver'
   gem 'cucumber-rails', :require => false 
   gem 'cucumber-rails-training-wheels'
   gem 'guard-cucumber'
