@@ -1,9 +1,12 @@
 
 // A view to display list of galleries for the researchers. 
-
+#mosaic.mosaic
 - @mosaics.each do |mosaic|
-  %tr
-    %td= link_to "#{mosaic.steps}", mosaic_path(mosaic)
-    
-
-
+  %h2= link_to "Mosaic ##{mosaic.id}", mosaic_path(mosaic)
+  %table{:align => "center"}
+    - mosaic.grid.split.each_slice(8).with_index do |slice, row|
+      %tr
+        - slice.each_with_index do |color, column|
+          %td{:align => "center"}
+            .block{:id => 8 * row + column, :style => "background-color: #{color};"}
+  %br
