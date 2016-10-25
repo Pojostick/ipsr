@@ -1,0 +1,9 @@
+
+// A view to display list of galleries for the researchers. 
+
+- @mosaics.each do |mosaic|
+  %tr
+    %td= link_to "#{mosaic.steps}", mosaic_path(mosaic)
+    
+
+
