@@ -9,16 +9,6 @@ def parse_location(location)
 end
 
 Then(/^I should see an? (\d+) by (\d+) grid$/) do |arg1, arg2|
-<<<<<<< HEAD
-  # check if the # of columns is 8
-  page.all('table#mosaic tr').count.should == arg1
-  # check if the # of rows is 10
-  page.all('table#mosaic td').count.should == arg2*arg1
-end
-
-Then(/^I should see (\d+) colors$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-=======
   # check if the # of rows is 10
   page.all('#mosaic tr').count.should == arg2.to_f
   # check if the # of rows is 8
@@ -27,7 +17,6 @@ end
 
 Then(/^I should see (\d+) colors$/) do |arg1|
   page.all('#selection_colors td').count.should == arg1.to_f
->>>>>>> dcd8c252730385cd21696cc03c9a8b55370d12b3
 end
 
 Given(/^color (\d+) in the palette is the color "([^"]*)"$/) do |which, color|

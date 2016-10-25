@@ -6,19 +6,11 @@
     #centerer.centerer
       #mosaic.mosaic
         %table{:align => "center"}
-<<<<<<< HEAD
-          - @mosaic.grid.split.each_slice(8).with_index do |slice, row|
-            %tr
-              - slice.each_with_index do |color, column|
-                %td{:align => "center"}
-                  .block{:id => 8 * row + column, :style => "background-color: #{color};"}
-=======
           - @mosaic.grid.split.each_slice(10).with_index do |slice, row|
             %tr
               - slice.each_with_index do |color, column|
                 %td{:align => "center"}
                   .block{:id => 10 * row + column, :style => "background-color: #{color};"}
->>>>>>> dcd8c252730385cd21696cc03c9a8b55370d12b3
     %h2 Steps dump: #{@mosaic.steps}
     
     
