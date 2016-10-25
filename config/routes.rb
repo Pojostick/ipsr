@@ -16,9 +16,9 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :mosaics
-  
+  get 'gallery', :to => 'mosaics#gallery', :as => :gallery
   post 'mosaics/autosave', :to => 'mosaics#autosave', :as => :autosave
-
+  post 'mosaics/:id', :to => 'mosaics#download', :as => :download
   # Example resource route with options:
   #   resources :products do
   #     member do

@@ -15,6 +15,12 @@ module NavigationHelpers
 
     when /^the home\s?page$/
       '/'
+    when /the page for (.*)/ 
+      mosaic_path(Mosaic.find_by_steps($1))
+    
+    when /^the gallery\s?page$/
+      '/gallery'
+      
     when /^the grid$/
       '/mosaics'
 
