@@ -6,6 +6,7 @@
     %h1{:align => "center"} Mosaic Construction Test
     - if flash[:notice]
       %h2{:align => "center"} #{flash[:notice]}
+<<<<<<< HEAD
     #centerer.centerer
       #selection.selection
         %table{:align => "center", :style => "margin-bottom: 50px;"}
@@ -23,11 +24,36 @@
       #mosaic.mosaic
         %table{:align => "center"}
           - @mosaic.grid.split.each_slice(8).with_index do |slice, row|
+=======
+    %table{:align => "center", :style => "margin-bottom: 5px;"}
+      %tr
+        %th
+          %h1{:align => "left", :style => "margin: 5px; font-variant: small-caps; width: 110%;"} Time Remaining:
+          %div{:id => "timer-bar"}
+            %h2{:id => "timer", :style => "margin: 0px"}
+    #centerer.centerer
+      #selection.selection
+        %table#selection_colors{:align => "center"}
+          - @all_colors.each_slice(3).with_index do |slice, row|
+            %tr
+              - slice.each_with_index do |color, column|
+                %td{:align => "center"}
+                  .block{:id => "src#{3 * row + column}", :style => "background-color: #{color};"}
+      #mosaic.mosaic
+        %table{:align => "center"}
+          - @mosaic.grid.split.each_slice(10).with_index do |slice, row|
+>>>>>>> dcd8c252730385cd21696cc03c9a8b55370d12b3
             %tr
               - slice.each_with_index do |color, column|
                 %td{:align => "center"}
                   - if color == 'transparent'
+<<<<<<< HEAD
                     .block{:id => 8 * row + column}
                   - else
                     .block{:id => 8 * row + column, :style => "background-color: #{color};"}
+=======
+                    .block{:id => 10 * row + column}
+                  - else
+                    .block{:id => 10 * row + column, :style => "background-color: #{color};"}
+>>>>>>> dcd8c252730385cd21696cc03c9a8b55370d12b3
     %div{:id => "APPDATA", :mosaic_id => @mosaic.id, :style => "display: none;"}
