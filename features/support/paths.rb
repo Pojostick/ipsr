@@ -23,6 +23,9 @@ module NavigationHelpers
       
     when /^the grid$/
       '/mosaics'
+      
+    when /^play a game$/
+      '/mosaics'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
