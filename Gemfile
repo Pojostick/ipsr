@@ -46,6 +46,9 @@ gem 'jquery-ui-rails'
 gem 'haml'
 gem 'protected_attributes'
 
+gem 'will_paginate', '~> 3.1.0'  # Tian added it for pagination
+# gem 'bootstrap-sass', '~> 3.2.0' # Tian added it for pagination render
+# gem 'will_paginate-bootstrap'
 # Use unicorn as the web server
 # gem 'unicorn'
 
