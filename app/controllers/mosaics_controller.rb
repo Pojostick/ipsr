@@ -16,6 +16,7 @@ class MosaicsController < ApplicationController
       redirect_to :controller => :mosaics, :action => :new and return
     end
     @mosaic = Mosaic.find params[:mosaic_id]
+    # @scratchpad = ('transparent ' * 16)
   end
   
   # Create before test and put id into session hash
@@ -41,7 +42,7 @@ class MosaicsController < ApplicationController
     # Append to steps
     @mosaic.update_attributes!(:steps => @mosaic.steps + "#{timestamp} #{tileId} #{color},")
     # Update grid
-    if tileId && tileId.to_i < 80
+    if (tileId && tileId.to_i < 80) && (tileId && tileId.to_i >= 0)
       newGrid = @mosaic.grid.split
       newGrid[tileId.to_i] = color
       @mosaic.update_attributes!(:grid => newGrid.join(' '))

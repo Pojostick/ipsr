@@ -27,13 +27,13 @@ table {
 }
 
 .block {
-    width: 58px;
-    height: 58px;
+    width: 59px;
+    height: 60px;
     box-shadow: none;
     border: none;
     border-collapse: none;
     background-color: rgba(255, 255, 255, 0.25);
-    background-image: image-url('block_gloss.png');
+    background-image: none;
     background-size: cover;
     opacity: 1;
     outline: solid transparent;
@@ -44,7 +44,6 @@ table {
 .selection .block {
     width: 50px;
     height: 50px;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75);
     border: 2px ridge rgb(63, 63, 63);
     border-collapse: collapse;
 }
@@ -109,6 +108,10 @@ table {
 }
 
 #timer-bar {
+    margin: auto;
+    margin-bottom: 1em;
+    width:50%; 
+    padding:0px;
     background: rgba(255, 255, 255, 0.25);
     text-align: center;
 }
