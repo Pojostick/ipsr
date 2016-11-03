@@ -1,5 +1,5 @@
-Feature: check if checkboxes and pagination exists
-  
+Feature: check if checkboxes exists
+ 
   As a researcher
   So that I can operate on multiple images at a time
   I want to be able to select images and navigate pages
