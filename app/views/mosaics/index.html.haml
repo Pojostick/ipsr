@@ -11,11 +11,12 @@
     #centerer.centerer
       #selection.selection
         %table#selection_colors{:align => "center"}
-          - @all_colors.each_slice(3).with_index do |slice, row|
+          - @all_colors.each_slice(11).with_index do |slice, row|
             %tr
               - slice.each_with_index do |color, column|
                 %td{:align => "center"}
-                  .block{:id => "src#{3 * row + column}", :style => "background-color: #{color};"}
+                  .block{:id => "src#{11 * row + column}", :style => "background-color: #{color};"}
+    #centerer.centerer
       #mosaic.mosaic
         %table{:align => "center"}
           - @mosaic.grid.split.each_slice(10).with_index do |slice, row|
