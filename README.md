@@ -2,11 +2,7 @@
 [![Test Coverage](https://codeclimate.com/github/Pojostick/ipsr-mosaic/badges/coverage.svg)](https://codeclimate.com/github/Pojostick/ipsr-mosaic)
 [![Issue Count](https://codeclimate.com/github/Pojostick/ipsr-mosaic/badges/issue_count.svg)](https://codeclimate.com/github/Pojostick/ipsr-mosaic)
 [![Build Status](https://travis-ci.org/Pojostick/ipsr-mosaic.svg?branch=master)](https://travis-ci.org/Pojostick/ipsr-mosaic)
-
-
 [Pivotal Tracker](https://www.pivotaltracker.com/n/projects/1886701)
-
-
 [On Heroku](http://ipsr-mosaic.herokuapp.com/)
 
 # Mosaic Construction Test
