@@ -1,6 +1,7 @@
-Given(/^I am on the (.*) page$/) do |page|
-  pending # Write code here that turns the phrase above into concrete actions
+Given /^(?:|I )am on (.+)$/ do |page_name|
+  visit path_to(page_name)
 end
+
 Then(/^I should see images$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end

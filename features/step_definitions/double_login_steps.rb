@@ -1,22 +1,26 @@
-Given /^I have a "([^\"]+)" page cookie set to "([^\"]+)"$/ do |game, cookie|
-    pending #  visit path_to(page_name)
+Given /^The cookie of this page is stored as: "([^\"]+)"$/ do |cookie|
+    # cookies = Capybara
+    # .current_session
+    # .driver
+    # .request
+    # .cookies
+    # expect(cookies).should_not be_nil
+    # # puts "cookies = #{cookies}"
+    pending
 end
 
-When /^I have already finished a game with result: "([^"]*)"$/ do |myresult|
-    pending # Write code here that turns the phrase above into concrete actions
+When /^I have already finished a game with result with id: "([^"]*)"$/ do |myresult_id|
+    # expect(params[myresult_id.to_sym]).should_not be_nil
+    pending
 end
 
-When /^I go to the "([^\"]+)" page with cookie: "([^\"]+)"$/ do |game, cookie|
-    pending # Write code here that turns the phrase above into concrete actions
+When /^The cookie "([^\"]+)" is already existed$/ do |cookie|
+    pending
 end
 
-Then /^I should see "([^\"]+)"$/ do |notice|
-    pending # Write code here that turns the phrase above into concrete actions
-    # "You have already finished the game once. Future results won't be recorded."
-end
-
-Then /^I should be able to play the game again to get a new result: "([^"]*)"$/ do |my_result|
-    pending # Write code here that turns the phrase above into concrete actions
+Then /^I should be able to play the game again to get a new result with id: "([^"]*)"$/ do |myresult_id|
+    # expect(params[myresult_id.to_sym]).should_not be_nil
+    pending
 end
 
 Then /^I should not see "([^"]*)" in the gallery$/ do |my_result|

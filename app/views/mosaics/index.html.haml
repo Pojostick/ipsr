@@ -6,28 +6,28 @@
     %h1{:align => "center"} Mosaic Construction Test
     - if flash[:notice]
       %h2{:align => "center"} #{flash[:notice]}
+    %table{:align => "center", :style => "margin-bottom: 5px;"}
+      %tr
+        %th
+          %h1{:align => "left", :style => "margin: 5px; font-variant: small-caps; width: 110%;"} Time Remaining:
+          %div{:id => "timer-bar"}
+            %h2{:id => "timer", :style => "margin: 0px"}
     #centerer.centerer
       #selection.selection
-        %table{:align => "center", :style => "margin-bottom: 50px;"}
-          %tr
-            %th
-              %h1{:align => "left", :style => "margin: 5px; font-variant: small-caps; width: 110%;"} Time Remaining:
-              %div{:id => "timer-bar"}
-                %h2{:id => "timer", :style => "margin: 0px"}
-        %table{:align => "center"}
+        %table#selection_colors{:align => "center"}
           - @all_colors.each_slice(3).with_index do |slice, row|
             %tr
-            - slice.each_with_index do |block, column|
-              %td{:align => "center"}
-                .block{:id => "src" << (3 * row + column), :style => "background-color: #{block};"}
+              - slice.each_with_index do |color, column|
+                %td{:align => "center"}
+                  .block{:id => "src#{3 * row + column}", :style => "background-color: #{color};"}
       #mosaic.mosaic
         %table{:align => "center"}
-          - @mosaic.grid.split.each_slice(8).with_index do |slice, row|
+          - @mosaic.grid.split.each_slice(10).with_index do |slice, row|
             %tr
-            - slice.each_with_index do |color, column|
-              %td{:align => "center"}
-                - if color == 'transparent'
-                  .block{:id => 8 * row + column}
-                - else
-                  .block{:id => 8 * row + column, :style => "background-color: #{color};"}
+              - slice.each_with_index do |color, column|
+                %td{:align => "center"}
+                  - if color == 'transparent'
+                    .block{:id => 10 * row + column}
+                  - else
+                    .block{:id => 10 * row + column, :style => "background-color: #{color};"}
     %div{:id => "APPDATA", :mosaic_id => @mosaic.id, :style => "display: none;"}

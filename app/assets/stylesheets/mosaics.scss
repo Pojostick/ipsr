@@ -11,42 +11,60 @@ html {
 body {
     color: black;
     background-color: white;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-image: url('http://pawderosaranch.com/wp-content/uploads/2013/11/shutterstock_146878922.jpg');
+
     margin: 0;
     width: 100%;
     min-height: 100%;
 }
 
 table {
-    border: 3px ridge;
+    border: 3px ridge rgba(127, 127, 127, 0.5);
     background-color: rgba(127, 127, 127, 0.25);
 }
 
+.mosaic table {
+    border-collapse: collapse;
+}
+
 .block {
+    width: 58px;
+    height: 58px;
+    box-shadow: none;
+    border: none;
+    border-collapse: none;
+    background-color: rgba(255, 255, 255, 0.25);
+    background-image: image-url('block_gloss.png');
+    background-size: cover;
+    opacity: 1;
+    outline: solid transparent;
+    transition: outline 0.25s, opacity 0.5s, box-shadow 0.25s, border 0.5s, transform 0.75s;
+    transition-timing-function: cubic-bezier(0.500, 0.000, 0.500, 1.500);;
+}
+
+.selection .block {
     width: 50px;
     height: 50px;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75);
     border: 2px ridge rgb(63, 63, 63);
     border-collapse: collapse;
-    background-color: rgba(255, 255, 255, 0.25);
-    background-image: image-url('block_gloss.png');
-    background-size: cover;
-    opacity: 1;
-    transition: opacity 0.5s, box-shadow 0.25s, border 0.5s, transform 0.75s;
-    transition-timing-function: cubic-bezier(0.500, 0.000, 0.500, 1.500);;
 }
 
 .block:hover {
-    border: 2px ridge black;
     cursor: pointer;
+}
+
+.selection .block:hover {
+    border: 2px ridge black;
     box-shadow: 2px 2px 4px 0px black;
     -ms-transform: scale(1.5); /* IE 9 */
     -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
     transform: scale(1.5);
     transition: opacity 0.25s, box-shadow 0.25s, transform 0.25s ease-out;
+}
+
+.mosaic .block:hover {
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+    transition: outline 0s;
 }
 
 .glow {
@@ -59,14 +77,14 @@ table {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10vh;
+    margin-bottom: 50px;
 }
 
 .selection {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 5px;
+    margin-right: 25px;
     float: left;
 }
 
@@ -74,7 +92,12 @@ table {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 5px;
+    margin: 0px;
+}
+
+.mosaic tr, .mosaic td {
+    margin: 0px;
+    padding: 0px;
 }
 
 .ui-progressbar {
@@ -101,7 +124,29 @@ table {
 
 a {
     color: #7f7f7f;
-    float: right;
-    text-shadow: 3px 3px 2px #000000;
+    text-shadow: 1px 1px 0px #aaa;
     text-decoration: none;
 }
+
+
+#download_button {
+    color: white;
+    height: 35px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    background-color: #428bca;
+    border-radius: 0.5em;
+}
+
+// .pagination {
+//     color: white;
+//     background-color: #428bca;
+//     margin-bottom: 20px;
+// }
+
+.pagination { padding: 3px; margin: 3px; } 
+.pagination a { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #aaaadd; text-decoration: none; color: #000099; } 
+.pagination a:hover, 
+.pagination a:active { border: 1px solid #000099; color: #000; } 
+.pagination span.current { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #000099; font-weight: bold; background-color: #000099; color: #FFF; } 
+.pagination span.disabled { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #eee; color: #ddd; }

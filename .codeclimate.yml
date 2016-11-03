@@ -1,32 +1,22 @@
 ---
 engines:
   csslint:
-    enabled: true
+    enabled: false
   coffeelint:
-    enabled: true
+    enabled: false
   duplication:
-    enabled: true
+    enabled: false
     config:
       languages:
       - ruby
-      - javascript
-      - python
-      - php
   eslint:
-    enabled: true
+    enabled: false
   fixme:
-    enabled: true
+    enabled: false
   rubocop:
-    enabled: true
+    enabled: false
 ratings:
   paths:
-  - "**.css"
-  - "**.coffee"
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
   - "**.rb"
-exclude_paths: []
+exclude_paths:
+- '/public/'

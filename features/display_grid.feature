@@ -6,8 +6,8 @@ Feature: display 8x10 grid and color palette
 Background: test subject is testing
   Given I am on the grid
 
-Scenario: 8x10 grid visible
-  Then I should see an 8 by 10 grid
+Scenario: 10x8 grid visible
+  Then I should see a 10 by 8 grid
 
 Scenario: color palette visible
   Then I should see 22 colors
