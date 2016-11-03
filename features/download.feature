@@ -13,10 +13,10 @@ Background: images have been added in images folder
   And  I am on the gallery page
 
 Scenario: selecting image to be downloaded
-  When I follow "mosaic1"
+  When I follow the link mosaic1
   Then I should be on the page for mosaic1
   When  I am on the gallery page
-  And I follow "mosaic2"
+  And I follow the link mosaic2
   Then I should be on the page for mosaic2
 
 Scenario: downloading the image
