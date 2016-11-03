@@ -57,7 +57,7 @@ class MosaicsController < ApplicationController
   
   def gallery
     # renders the collection of galleries to be viewed by researchers
-    @mosaics = Mosaic.all
+    @mosaics = Mosaic.all.paginate(:page => params[:page], per_page: 9)
   end
   
   def download
