@@ -13,3 +13,8 @@
                   - slice.each do |color|
                     %td{:align => "center"}
                       .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
+            = check_box_tag((mosaic.id).to_s)
+            = label_tag("Download")
+%center
+  = submit_tag "Download selected", :id => "download_button"
+  = will_paginate @mosaics
