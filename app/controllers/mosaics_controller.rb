@@ -1,7 +1,7 @@
 class MosaicsController < ApplicationController
   
   def mosaic_params
-    params.require(:mosaic).permit(:grid, :steps)
+    params.require(:mosaic).permit(:grid, :steps, :step_count)
   end
   
   # Show the Mosaic Construction Test
@@ -21,7 +21,7 @@ class MosaicsController < ApplicationController
   # Create before test and put id into session hash
   def new
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => '')
+    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => [], :step_count => 0)
     if flash[:notice]
       flash[:notice] += "Created test ##{@mosaic.id}"
     else
@@ -39,7 +39,8 @@ class MosaicsController < ApplicationController
     tileId = params[:tileId]
     color = params[:color]
     # Append to steps
-    @mosaic.update_attributes!(:steps => @mosaic.steps + "#{timestamp} #{tileId} #{color},")
+    @mosaic.steps.push({ timestamp: timestamp, tileId: tileId, color: color})
+    @mosaic.update_attributes!(:steps)
     # Update grid
     if tileId && tileId.to_i < 80
       newGrid = @mosaic.grid.split
