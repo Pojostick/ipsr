@@ -1,4 +1,8 @@
 class Mosaic < ActiveRecord::Base
+  
+  serialize :steps, Array
+  attr_accessor :step_count
+  
   def self.colors
     %w' #3977ad
         #d6b027
@@ -23,4 +27,13 @@ class Mosaic < ActiveRecord::Base
         #845f8b
         #2b3d3d '
   end
+  
+  def totalSteps()
+    return @stepCount
+  end
+  
+  def step_at_n(n)
+    return @steps[n]
+  end
+  
 end
