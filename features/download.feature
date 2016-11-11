@@ -7,16 +7,16 @@ Feature: download current section of completed tests
   
 Background: images have been added in images folder
   Given the following images exist:
-	  | steps                 | grid                       |
-	  | mosaic1               | 01                         |
-	  | mosaic2               | 02                         |
+	  | steps                 | grid                        |id
+	  | mosaic1               | #01                         |01
+	  | mosaic2               | #02                         |02
   And  I am on the gallery page
 
 Scenario: selecting image to be downloaded
-  When I follow the link mosaic1
+  When I click on the following link "mosaic1"
   Then I should be on the page for mosaic1
   When  I am on the gallery page
-  And I follow the link mosaic2
+  And I click on the following link "mosaic2"
   Then I should be on the page for mosaic2
 
 Scenario: downloading the image
