@@ -83,14 +83,34 @@ $( function() {
         alert("Thanks for submitting your survey. The test is now over. [DEVS: open console for output log]");
         $.ajax({type: "GET", url: "/mosaics/" + id});
     }
+    
+    
+    //////////////// TIMER STUFF ////////////////////
     var TIME = 300;
     var time = TIME;
-    $( "#timer-bar" ).progressbar();
-    timer = setTimeout(function progress() {
-        $("#timer-bar").progressbar("value", time / (TIME / 100));
+    
+    // Non-intrusive timer (only color).
+    discreet_timer = function() {
+        if (time/TIME <= 0.2) {
+            explicit_timer();
+        } else {
+            $("#timer").text("Click to Submit");
+            $("#timer-bar").progressbar("value", 100);
+        }
+    };
+    
+    // Timer with progress bar and time. 
+    explicit_timer = function() {
         $("#timer").text(Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + time % 60);
-        $("#timer-bar > div").css("background-color", "hsl(" + Math.floor(time / (TIME * 5 / 600)) + ", 100%, 50%)")
+        $("#timer-bar").progressbar("value", time / (TIME / 100));
+    };
+    
+    $( "#timer-bar" ).progressbar();
+    discreet_timer();
+    timer = setTimeout(function progress() {
         if (time > 0) {
+            $("#timer-bar").mouseenter(explicit_timer).mouseleave(discreet_timer);
+            $("#timer-bar > div").css("background-color", "hsl(" + Math.floor(time / (TIME * 5 / 600)) + ", 100%, 50%)")
             time -= 1;
             timer = setTimeout(progress, 1000);
         } else {
