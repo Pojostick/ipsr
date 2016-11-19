@@ -1,20 +1,24 @@
 
-// A view to display list of galleries for the researchers. 
-%table{:align => "center", :style => "border: 0px solid transparent; background-color: transparent;"}
-  #mosaic.mosaic
-    - @mosaics.each_slice(3) do |mosaic_slice|
-      %tr{:style => "padding: 50px; margin: 50px;"}
-        - mosaic_slice.each do |mosaic|
-          %td{:align => "center", :style => "padding: 50px; margin: 50px;"}
-            %h1{:align => "center", :style => "margin-bottom: 5px;"}= link_to "Mosaic ##{mosaic.id}", mosaic_path(mosaic)
-            %table{:align => "center", :cellpadding => "0", :cellspacing => "0"}
-              - mosaic.grid.split.each_slice(10) do |slice|
-                %tr
-                  - slice.each do |color|
-                    %td{:align => "center"}
-                      .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
-            = check_box_tag "checkbox_#{mosaic.id}"
-            = label_tag("Download")
-%center
-  = submit_tag "Download selected", :id => "download_button"
-  = will_paginate @mosaics
+// A view to display list of galleries for the researchers.
+= form_tag download_gallery_path(:format => :csv), :method => :post, :id => 'mosaics_form' do
+  %table{:align => "center", :style => "border: 0px solid transparent; background-color: transparent;"}
+    #mosaic.mosaic
+      - @mosaics.each_slice(3) do |mosaic_slice|
+        %tr{:style => "padding: 50px; margin: 50px;"}
+          - mosaic_slice.each do |mosaic|
+            %td{:align => "center", :style => "padding: 50px; margin: 50px;"}
+              %h1{:align => "center", :style => "margin-bottom: 5px;"}= link_to "Mosaic ##{mosaic.id}", mosaic_path(mosaic)
+              %table{:align => "center", :cellpadding => "0", :cellspacing => "0"}
+                - mosaic.grid.split.each_slice(10) do |slice|
+                  %tr
+                    - slice.each do |color|
+                      %td{:align => "center"}
+                        .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
+              = check_box_tag "mosaics[#{mosaic.id}]"
+              = label_tag("Download")
+  %center
+    = submit_tag "Download selected", :id => "download_button"
+    = form_tag download_all_path(:format => :csv), :method => :post, :id => 'mosaics_form' do    
+      = submit_tag "Download all", :id => "downloadall_button"
+    = will_paginate @mosaics
+
