@@ -1,4 +1,5 @@
 class Mosaic < ActiveRecord::Base
+  require 'csv'
   
   serialize :steps, Array
   attr_accessor :step_count
@@ -34,6 +35,17 @@ class Mosaic < ActiveRecord::Base
   
   def step_at_n(n)
     return @steps[n]
+  end
+  
+  def self.to_csv
+    attributes = %w{steps grid}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      all.each do |mosaic|
+        csv << attributes.map{ |attr| mosaic.send(attr) }
+      end
+    end
   end
   
 end
