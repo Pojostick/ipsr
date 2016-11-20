@@ -62,11 +62,6 @@ class MosaicsController < ApplicationController
     @mosaics = Mosaic.all.paginate(:page => params[:page], per_page: 9)
   end
   
-  def download
-    # downloads the selected mosaic and stays on the same page
-    redirect_to action: "show", id: params[:id]
-  end
-  
   def download_gallery
     if params[:mosaics].nil?
       redirect_to gallery_path
@@ -74,14 +69,14 @@ class MosaicsController < ApplicationController
     end
     @mosaics = Mosaic.where(id: params[:mosaics].keys)
     respond_to do |format|
-      format.csv { send_data @mosaics.to_csv, filename: "users-#{Date.today}.csv" }
+      format.csv { send_data @mosaics.to_csv, filename: "Mosaics-#{Date.today}.csv" }
     end
   end
   
   def download_all
      @mosaics = Mosaic.all
     respond_to do |format|
-      format.csv { send_data @mosaics.to_csv, filename: "users-#{Date.today}.csv" }
+      format.csv { send_data @mosaics.to_csv, filename: "All_Mosaics-#{Date.today}.csv" }
     end
   end
   

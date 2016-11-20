@@ -16,9 +16,13 @@
                         .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
               = check_box_tag "mosaics[#{mosaic.id}]"
               = label_tag("Download")
+              
   %center
     = submit_tag "Download selected", :id => "download_button"
-    = form_tag download_all_path(:format => :csv), :method => :post, :id => 'mosaics_form' do    
-      = submit_tag "Download all", :id => "downloadall_button"
-    = will_paginate @mosaics
+%center   
+  = form_tag download_all_path(:format => :csv), :method => :post, :id => 'mosaics_form' do    
+    = submit_tag "Download all", :id => "downloadall_button"
+  = will_paginate @mosaics
+
+
 
