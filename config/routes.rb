@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'gallery', :to => 'mosaics#gallery', :as => :gallery
   post 'mosaics/autosave', :to => 'mosaics#autosave', :as => :autosave
   post 'mosaics/:id', :to => 'mosaics#download', :as => :download
+  post 'gallery', :to => 'mosaics#download_selected', :as => :download_selected
   # Example resource route with options:
   #   resources :products do
   #     member do

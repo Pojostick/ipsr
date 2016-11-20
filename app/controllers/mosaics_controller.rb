@@ -60,10 +60,21 @@ class MosaicsController < ApplicationController
   def gallery
     # renders the collection of galleries to be viewed by researchers
     @mosaics = Mosaic.all.paginate(:page => params[:page], per_page: 9)
+    @all_mosaics = Mosaic.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data(@all_mosaics.to_csv) }
+    end
   end
   
   def download
     # downloads the selected mosaic and stays on the same page
     redirect_to action: "show", id: params[:id]
+  end
+  
+  def download_selected
+    @selected_ids = params[:mosaics] || {}
+    @selected_mosaics = Mosaic.where(id: @selected_ids.keys)
+    # redirect_to gallery_path
   end
 end
