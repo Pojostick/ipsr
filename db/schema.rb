@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20161019033019) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "step_count"
+    t.text     "grid_array"
   end
 
 end
