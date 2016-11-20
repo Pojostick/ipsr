@@ -2,7 +2,7 @@ class Mosaic < ActiveRecord::Base
   
   require "csv"
   serialize :steps, Array
-  serialize :grid_array, Array
+  serialize :grids, Array
   attr_accessor :step_count
   
   def self.colors

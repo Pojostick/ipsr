@@ -22,7 +22,7 @@ class MosaicsController < ApplicationController
   # Create before test and put id into session hash
   def new
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_count => 0, :grid_array => Array.new)
+    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_count => 0, :grids => Array.new)
     if flash[:notice]
       flash[:notice] += "Created test ##{@mosaic.id}"
     else
@@ -47,7 +47,7 @@ class MosaicsController < ApplicationController
       @mosaic.update_attributes!(:grid => newGrid.join(' '))
     end
     flash[:notice] = @mosaic.grid
-    @mosaic.update_attributes!(:grid_array => @mosaic.grid_array.push(@mosaic.grid))
+    @mosaic.update_attributes!(:grids => @mosaic.grids.push(newGrid.join(' ')))
     @all_colors = Mosaic.colors
     render "index"
   end

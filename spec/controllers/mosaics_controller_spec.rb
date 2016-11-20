@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe MosaicsController, type: :controller do
     describe "Post autosave" do 
         before(:each) do 
-            @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grid_array => Array.new)
+            @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grids => Array.new)
             @args = {:mosaic_id => "01", :time => Time.now.asctime, :tileId => "0", :color => "8060930"}
             expect(Mosaic).to receive(:find).with("01").and_return(@fake_mosaic)
         end
@@ -11,7 +11,7 @@ RSpec.describe MosaicsController, type: :controller do
         it "should create add a tile with color '8060930' in a grid" do
              expect(@fake_mosaic).to receive(:update_attributes!).with({:steps => [{ timestamp: @args[:time], tileId: @args[:tileId], color: @args[:color]}]})
              expect(@fake_mosaic).to receive(:update_attributes!).with({:grid => @args[:color]})
-             expect(@fake_mosaic).to receive(:update_attributes!).with({:grid_array => @mosaic.grid_array.push(@args[:color])})
+             expect(@fake_mosaic).to receive(:update_attributes!).with({:grids => [@args[:color]]})
              post :autosave, @args
              expect(assigns(:mosaic)).to eq(@fake_mosaic)
              # expect(@fake_mosaic.grid).to match(/^8060930$/)
