@@ -77,45 +77,45 @@ $( function() {
         .addClass("ui-widget-content");
 
     submit = function() {
+        if (time == -1) return;
+        time = -1;
         $(".block").draggable("disable");
-        console.log(Date.now() + ": End");
+        $("#timer").css("cursor", "wait");
+        $("#timer").text("Submitting test...");
+        $("#timer-bar").progressbar("value", 100);
+        $("#timer-bar > div").css("background-color", "#fb8");
+        hide_time = show_time = function() {};
         clearTimeout(timer);
         alert("Thanks for submitting your survey. The test is now over. [DEVS: open console for output log]");
         $.ajax({type: "GET", url: "/mosaics/" + id});
     }
     
-    
-    //////////////// TIMER STUFF ////////////////////
-    var TIME = 300;
+    var TIME = 1800;
     var time = TIME;
+    var start = Date.now();
     
-    // Non-intrusive timer (only color).
-    discreet_timer = function() {
-        if (time/TIME <= 0.2) {
-            explicit_timer();
-        } else {
-            $("#timer").text("Click to Submit");
-            $("#timer-bar").progressbar("value", 100);
-        }
+    hide_time = function() {
+        $("#timer").text("Submit");
+        $("#timer-bar").progressbar("value", 100);
     };
     
-    // Timer with progress bar and time. 
-    explicit_timer = function() {
+    show_time = function() {
         $("#timer").text(Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + time % 60);
         $("#timer-bar").progressbar("value", time / (TIME / 100));
     };
     
-    $( "#timer-bar" ).progressbar();
-    discreet_timer();
+    var update = hide_time;
+    
+    $("#timer-bar").progressbar();
+    $("#timer-bar").hover(function() {update = show_time; update()},
+                          function() {update = hide_time; update()});
     timer = setTimeout(function progress() {
         if (time > 0) {
-            $("#timer-bar").mouseenter(explicit_timer).mouseleave(discreet_timer);
-            $("#timer-bar > div").css("background-color", "hsl(" + Math.floor(time / (TIME * 5 / 600)) + ", 100%, 50%)")
-            time -= 1;
+            time = TIME - Math.floor((Date.now() - start) / 1000);
             timer = setTimeout(progress, 1000);
+            update();
         } else {
             submit();
         }
     }, 0);
-    console.log(Date.now() + ": Start");
 });
