@@ -1,3 +1,4 @@
+
 // A view to display list of galleries for the researchers.
 = form_tag download_gallery_path(:format => :csv), :method => :post, :id => 'mosaics_form' do
   %table{:align => "center", :style => "border: 0px solid transparent; background-color: transparent;"}
@@ -14,13 +15,6 @@
                       %td{:align => "center"}
                         .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
 
-              = check_box_tag "mosaics[#{mosaic.id}]", :id => mosaic.id
-              = label_tag("Download")
-  
-  %center
-    = submit_tag "Download selected", :id => "download_button"
-%center
-  = link_to 'Download All', gallery_path(:format => :csv), :id => "download_button"
               = check_box_tag "mosaics[#{mosaic.id}]"
               = label_tag("Download")
               

@@ -80,3 +80,4 @@ class MosaicsController < ApplicationController
     end
   end
 end
+

@@ -7,7 +7,7 @@ Feature: download current section of completed tests
   
 Background: images have been added in images folder
   Given the following images exist:
-	  | steps                                                             | grid                    |
+	  | steps                                          `                  | grid                    |
 	  | [{:timestamp=>"1479168193064", :tileId=>"2", :color=>"#1d5b46"}]  | #7b3a42 #d6b027 #982b31 |
 	  | []                                                                | transparent             |
   And  I am on the gallery page
@@ -24,7 +24,5 @@ Scenario: selecting image to be downloaded
 Scenario: dowload all images
   When I press "Download all"
   Then I should be able to download the file with file name: "all_mosaics"
-  
-
   
 
