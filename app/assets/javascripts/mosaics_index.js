@@ -90,7 +90,7 @@ $( function() {
         $.ajax({type: "GET", url: "/mosaics/" + id});
     }
     
-    var TIME = 300;
+    var TIME = 1800;
     var time = TIME;
     var start = Date.now();
     
