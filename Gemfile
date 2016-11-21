@@ -34,6 +34,10 @@ group :production do
   gem 'pg'
 end
 
+
+#Authentication gems
+gem "omniauth-google-oauth2", "~> 0.2.1"
+
 # Gems used only for assets and not required
 # in production environments by default.
 
