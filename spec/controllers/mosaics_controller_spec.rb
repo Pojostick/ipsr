@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe MosaicsController, type: :controller do
     describe "Post autosave" do 
@@ -46,5 +47,38 @@ RSpec.describe MosaicsController, type: :controller do
     
     it "should be able to autosave" do
       expect{ get 'autosave', {:mosaic_id => 1, :time => Time.now.asctime, :tileId => "1", :color => "#302988"}}.not_to raise_error
+    end
+    
+    it "paginates records" do
+        expect{ get 'gallery'}.not_to raise_error
+    end
+    
+    describe "Download Mosaic" do 
+        before :each do
+            @mock_mosaic = double('Mosaic', {:steps => '[]', :grid => 'transparent'})
+        end
+        it "should be able to download all mosaics" do
+            expect(Mosaic).to receive(:all).and_return(@mock_mosaic)
+            expect(@mock_mosaic).to receive (:to_csv)
+            post :download_all, {:format => :csv}
+        end
+        
+        it "should be able to download selected mosaics" do
+            expect(Mosaic).to receive(:where).with({:id=>["id"]}).and_return(@mock_mosaic)
+            expect(@mock_mosaic).to receive (:to_csv)
+            post :download_gallery, {:format => :csv, :mosaics => {:id => '1'}}
+        end
+        
+        it "should not be able to download selected mosaics without selected any mosaic" do
+            post :download_gallery, {:mosaics => nil}
+            response.should redirect_to(gallery_path)
+        end
+        
+        it "should have pagination" do
+            # expect(Mosaic.all).to receive(:paginate).with(no_args)
+            expect(Mosaic).to receive(:all).and_return(@mock_mosaic)
+            expect(@mock_mosaic).to receive(:paginate).with({:page=>"9", :per_page=>9})
+            get :gallery, {:page => 9, per_page: 9}
+        end
     end
 end		 

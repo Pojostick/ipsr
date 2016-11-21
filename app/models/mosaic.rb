@@ -30,13 +30,13 @@ class Mosaic < ActiveRecord::Base
         #2b3d3d '
   end
   
-  def totalSteps()
-    return @step_counter
-  end
+  # def totalSteps()
+  #   return @step_counter
+  # end
   
-  def step_at_n(n)
-    return @steps[n]
-  end
+  # def step_at_n(n)
+  #   return @steps[n]
+  # end
   
   def self.to_csv
     attributes = %w{steps grid}
