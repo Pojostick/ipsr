@@ -14,8 +14,8 @@ Background: viewer on the gallery home page
 #     Then I should be on the test 1 display page
     
 Scenario: only view dates when ranges are selected
-    When I select a date ranging from 2016 to 2016
-    Then I should only see mosaics ranging from 2016 to 2016
+    # When I select a date ranging from 2016 to 2016
+    # Then I should only see mosaics ranging from 2016 to 2016
     # When I select a date ranging from 2016 to 2016
     # Then I should only see mosaics ranging from 2016 to 2016
     # When I select a date ranging from 2016 to 2016
