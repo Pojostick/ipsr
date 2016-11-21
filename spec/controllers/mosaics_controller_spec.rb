@@ -12,6 +12,8 @@ RSpec.describe MosaicsController, type: :controller do
              expect(@fake_mosaic).to receive(:update_attributes!).with({:steps => [{ timestamp: @args[:time], tileId: @args[:tileId], color: @args[:color]}]})
              expect(@fake_mosaic).to receive(:update_attributes!).with({:grid => @args[:color]})
              expect(@fake_mosaic).to receive(:update_attributes!).with({:grids => [@args[:color]]})
+             expect(@fake_mosaic).to receive(:increment).with(:step_counter, 1)
+            #  expect(@fake_mosaic.step_counter).to eq(1)
              post :autosave, @args
              expect(assigns(:mosaic)).to eq(@fake_mosaic)
              # expect(@fake_mosaic.grid).to match(/^8060930$/)
