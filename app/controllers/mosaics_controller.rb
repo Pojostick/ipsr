@@ -1,13 +1,16 @@
 class MosaicsController < ApplicationController
   
   def mosaic_params
-    params.require(:mosaic).permit(:grid, :steps)
+    params.require(:mosaic).permit(:grid, :steps, :step_counter, :grid_array)
   end
   
   # Show the Mosaic Construction Test
   def index
     # If cookie does not exist, then redirect to survey page
     # or create a modal dialogue with partial render
+    if !current_user && !Rails.env.test?
+      redirect_to :login and return
+    end
     @all_colors = Mosaic.colors
     unless params[:mosaic_id]
       # Create a new mosaic and retrieve id
@@ -22,7 +25,7 @@ class MosaicsController < ApplicationController
   # Create before test and put id into session hash
   def new
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => '')
+    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new)
     if flash[:notice]
       flash[:notice] += "Created test ##{@mosaic.id}"
     else
@@ -39,8 +42,7 @@ class MosaicsController < ApplicationController
     timestamp = params[:time]
     tileId = params[:tileId]
     color = params[:color]
-    # Append to steps
-    @mosaic.update_attributes!(:steps => @mosaic.steps + "#{timestamp} #{tileId} #{color},")
+    @mosaic.update_attributes!(:steps => @mosaic.steps.push({timestamp: timestamp, tileId: tileId, color: color}))
     # Update grid
     if (tileId && tileId.to_i < 80) && (tileId && tileId.to_i >= 0)
       newGrid = @mosaic.grid.split
@@ -48,6 +50,8 @@ class MosaicsController < ApplicationController
       @mosaic.update_attributes!(:grid => newGrid.join(' '))
     end
     flash[:notice] = @mosaic.grid
+    @mosaic.update_attributes!(:grids => @mosaic.grids.push(newGrid.join(' ')))
+    @mosaic.increment(:step_counter, by = 1)
     @all_colors = Mosaic.colors
     render "index"
   end
@@ -61,8 +65,23 @@ class MosaicsController < ApplicationController
     @mosaics = Mosaic.all.paginate(:page => params[:page], per_page: 9)
   end
   
-  def download
-    # downloads the selected mosaic and stays on the same page
-    redirect_to action: "show", id: params[:id]
+  def download_gallery
+    if params[:mosaics].nil?
+      redirect_to gallery_path
+      return
+    end
+    @mosaics = Mosaic.where(id: params[:mosaics].keys)
+    respond_to do |format|
+      format.csv { send_data @mosaics.to_csv, filename: "Mosaics-#{Date.today}.csv" }
+    end
   end
+  
+  def download_all
+     @mosaics = Mosaic.all
+    respond_to do |format|
+      format.csv { send_data @mosaics.to_csv, filename: "All_Mosaics-#{Date.today}.csv" }
+    end
+  end
+  
+  
 end

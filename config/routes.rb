@@ -1,7 +1,23 @@
 Rails.application.routes.draw do
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
+  get 'home/show'
+
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+  
+  #Oauth routes
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'sessions#destroy', as: 'signout'
+ 
+  resources :sessions, only: [:create, :destroy]
+  resource :home, only: [:show]
+  
+  get 'login' => 'home#show'
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
@@ -19,6 +35,9 @@ Rails.application.routes.draw do
   get 'gallery', :to => 'mosaics#gallery', :as => :gallery
   post 'mosaics/autosave', :to => 'mosaics#autosave', :as => :autosave
   post 'mosaics/:id', :to => 'mosaics#download', :as => :download
+  post 'gallery/download', :to => 'mosaics#download_gallery', :as =>:download_gallery
+  post 'gallery/downloadall', :to => 'mosaics#download_all', :as =>:download_all
+  
   # Example resource route with options:
   #   resources :products do
   #     member do

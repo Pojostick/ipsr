@@ -1,23 +1,20 @@
 require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe MosaicsController, type: :controller do
-    # it "should autosave every 5 seconds" do
-    #   #setup a mock with no colors
-    #   #autosave
-    #   #add in a new tile
-    #   #autosave
-    #   #there should be a new tile
-    # end
     describe "Post autosave" do 
         before(:each) do 
-            @fake_mosaic = double('Mosaic', :steps => "", :grid => "")
-            @args = {:mosaic_id => "01", :time => "", :tileId => "0", :color => "8060930"}
+            @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grids => Array.new)
+            @args = {:mosaic_id => "01", :time => Time.now.asctime, :tileId => "0", :color => "8060930"}
             expect(Mosaic).to receive(:find).with("01").and_return(@fake_mosaic)
         end
          
         it "should create add a tile with color '8060930' in a grid" do
-             expect(@fake_mosaic).to receive(:update_attributes!).with({:steps => "#{@fake_mosaic.steps}#{@args[:time]} #{@args[:tileId]} #{@args[:color]},"})
+             expect(@fake_mosaic).to receive(:update_attributes!).with({:steps => [{ timestamp: @args[:time], tileId: @args[:tileId], color: @args[:color]}]})
              expect(@fake_mosaic).to receive(:update_attributes!).with({:grid => @args[:color]})
+             expect(@fake_mosaic).to receive(:update_attributes!).with({:grids => [@args[:color]]})
+             expect(@fake_mosaic).to receive(:increment).with(:step_counter, 1)
+            #  expect(@fake_mosaic.step_counter).to eq(1)
              post :autosave, @args
              expect(assigns(:mosaic)).to eq(@fake_mosaic)
              # expect(@fake_mosaic.grid).to match(/^8060930$/)
@@ -49,8 +46,39 @@ RSpec.describe MosaicsController, type: :controller do
     end
     
     it "should be able to autosave" do
-      expect{ get 'autosave', {:mosaic_id => 1, :time => "1", :tileId => "1", :color => "#302988"}}.not_to raise_error
+      expect{ get 'autosave', {:mosaic_id => 1, :time => Time.now.asctime, :tileId => "1", :color => "#302988"}}.not_to raise_error
+    end
+    
+    it "paginates records" do
+        expect{ get 'gallery'}.not_to raise_error
+    end
+    
+    describe "Download Mosaic" do 
+        before :each do
+            @mock_mosaic = double('Mosaic', {:steps => '[]', :grid => 'transparent'})
+        end
+        it "should be able to download all mosaics" do
+            expect(Mosaic).to receive(:all).and_return(@mock_mosaic)
+            expect(@mock_mosaic).to receive (:to_csv)
+            post :download_all, {:format => :csv}
+        end
+        
+        it "should be able to download selected mosaics" do
+            expect(Mosaic).to receive(:where).with({:id=>["id"]}).and_return(@mock_mosaic)
+            expect(@mock_mosaic).to receive (:to_csv)
+            post :download_gallery, {:format => :csv, :mosaics => {:id => '1'}}
+        end
+        
+        it "should not be able to download selected mosaics without selected any mosaic" do
+            post :download_gallery, {:mosaics => nil}
+            response.should redirect_to(gallery_path)
+        end
+        
+        it "should have pagination" do
+            # expect(Mosaic.all).to receive(:paginate).with(no_args)
+            expect(Mosaic).to receive(:all).and_return(@mock_mosaic)
+            expect(@mock_mosaic).to receive(:paginate).with({:page=>"9", :per_page=>9})
+            get :gallery, {:page => 9, per_page: 9}
+        end
     end
 end		 
-
-
