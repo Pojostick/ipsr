@@ -8,7 +8,7 @@ class MosaicsController < ApplicationController
   def index
     # If cookie does not exist, then redirect to survey page
     # or create a modal dialogue with partial render
-    if !current_user
+    if !current_user && !Rails.env.test?
       redirect_to :login and return
     end
     @all_colors = Mosaic.colors

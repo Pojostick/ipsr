@@ -1,5 +1,5 @@
 Given /^(?:|I )am on (.+)$/ do |page_name|
-  request.session[:user_id] = 10000
+  # @current_user = true
   visit path_to(page_name)
 end
 
