@@ -92,15 +92,5 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-
-  def login_admin
-    user = FactoryGirl.create(:user, type: 0)
-    session[:user_id] = user.id
-  end
-end
-
-RSpec.configure do |config|
-  config.include SpecHelper, type: :controller
-
 end
 
