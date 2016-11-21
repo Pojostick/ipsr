@@ -11,7 +11,7 @@ html {
 body {
     color: black;
     background-color: white;
-
+    font-family: "Arial";
     margin: 0;
     width: 100%;
     min-height: 100%;
@@ -83,7 +83,6 @@ table {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 25px;
     float: left;
 }
 
@@ -104,7 +103,7 @@ table {
 }
 
 #timer-bar > div {
-    background: black;
+    background: #8bf;
 }
 
 #timer-bar {
@@ -114,6 +113,7 @@ table {
     padding:0px;
     background: rgba(255, 255, 255, 0.25);
     text-align: center;
+    float: right;
 }
 
 #timer {
@@ -121,8 +121,50 @@ table {
     width: 100%;
     height: 100%;
     font-weight: bold;
-    color: #ddeeff;
+    color: white;
     text-shadow: 0px 0px 5px black;
+    cursor: pointer;
+}
+
+#menu {
+    outline: #000000 solid 2px;
+    background-color: #444;
+    height: 1.5em;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#menu li {
+    float: left;
+}
+
+#menu li text {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 3px 16px;
+    text-decoration: none;
+}
+
+#menu li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 3px 16px;
+    text-decoration: none;
+    transition: background-color 0.5s;
+}
+
+#menu li a:hover {
+    background-color: #000000;
+    transition: background-color 0s;
 }
 
 a {
