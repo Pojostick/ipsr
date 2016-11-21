@@ -79,6 +79,4 @@ class MosaicsController < ApplicationController
       format.csv { send_data @mosaics.to_csv, filename: "All_Mosaics-#{Date.today}.csv" }
     end
   end
-  
-  
 end
