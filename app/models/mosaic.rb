@@ -1,8 +1,9 @@
 class Mosaic < ActiveRecord::Base
   require 'csv'
   
+  require "csv"
   serialize :steps, Array
-  attr_accessor :step_count
+  serialize :grids, Array
   
   def self.colors
     %w' #3977ad
@@ -30,7 +31,7 @@ class Mosaic < ActiveRecord::Base
   end
   
   def totalSteps()
-    return @stepCount
+    return @step_counter
   end
   
   def step_at_n(n)
@@ -39,6 +40,7 @@ class Mosaic < ActiveRecord::Base
   
   def self.to_csv
     attributes = %w{steps grid}
+
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
@@ -47,5 +49,6 @@ class Mosaic < ActiveRecord::Base
       end
     end
   end
+
   
 end
