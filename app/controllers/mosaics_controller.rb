@@ -8,6 +8,9 @@ class MosaicsController < ApplicationController
   def index
     # If cookie does not exist, then redirect to survey page
     # or create a modal dialogue with partial render
+    if !current_user
+      redirect_to :login and return
+    end
     @all_colors = Mosaic.colors
     unless params[:mosaic_id]
       # Create a new mosaic and retrieve id
