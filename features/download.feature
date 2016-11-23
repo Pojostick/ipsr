@@ -24,7 +24,4 @@ Scenario: selecting image to be downloaded
 Scenario: dowload all images
   When I press "Download all"
   Then I should be able to download the file with file name: "all_mosaics"
-  
-
-  
-
+ 

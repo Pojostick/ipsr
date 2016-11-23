@@ -1,4 +1,6 @@
 
+= select(:mosaic, :grid, options_for_select([["canceled", "1"], ["pending", "2"], ["success", "3"]]))
+
 // A view to display list of galleries for the researchers.
 = form_tag download_gallery_path(:format => :csv), :method => :post, :id => 'mosaics_form' do
   %table{:align => "center", :style => "border: 0px solid transparent; background-color: transparent;"}
@@ -14,6 +16,7 @@
                     - slice.each do |color|
                       %td{:align => "center"}
                         .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
+
               = check_box_tag "mosaics[#{mosaic.id}]"
               = label_tag("Download")
               
