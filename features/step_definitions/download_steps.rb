@@ -23,3 +23,7 @@ Then /^I should be able to download the file with file name: "([^"]*)"$/ do |fil
   end
   page.response_headers['Content-Disposition'].should include("filename=\"#{filename}\"")
 end
+
+Given /^(?:|I )am on (.+)$/ do |page_name|
+  visit path_to(page_name)
+end
