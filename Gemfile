@@ -13,6 +13,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'jasmine-rails' # if you plan to use JavaScript/CoffeeScript
+  
 end
 
 group :test do
@@ -51,6 +52,7 @@ gem 'haml'
 gem 'protected_attributes'
 
 gem 'will_paginate', '~> 3.1.0'  # Tian added it for pagination
+gem 'to_csv-rails'# Last officially released gem
 # gem 'bootstrap-sass', '~> 3.2.0' # Tian added it for pagination render
 # gem 'will_paginate-bootstrap'
 # Use unicorn as the web server
