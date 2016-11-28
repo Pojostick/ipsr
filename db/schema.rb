@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20161127054242) do
+=======
+ActiveRecord::Schema.define(version: 20161128022406) do
+>>>>>>> 2cddb2cb327b765f1159ca4ede3dd59700907313
 
   create_table "mosaics", force: :cascade do |t|
     t.string   "grid"
@@ -20,10 +24,16 @@ ActiveRecord::Schema.define(version: 20161127054242) do
     t.datetime "updated_at",       null: false
     t.string   "grids"
     t.integer  "step_counter"
+<<<<<<< HEAD
     t.boolean  "completed"
     t.integer  "number_of_colors"
     t.string   "dominant_color"
+=======
+    t.integer  "user_id"
+>>>>>>> 2cddb2cb327b765f1159ca4ede3dd59700907313
   end
+
+  add_index "mosaics", ["user_id"], name: "index_mosaics_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "provider"

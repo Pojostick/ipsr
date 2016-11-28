@@ -3,6 +3,7 @@ class Mosaic < ActiveRecord::Base
   require "csv"
   serialize :steps, Array
   serialize :grids, Array
+  belongs_to :user
   
   def self.colors
     %w' #3977ad
