@@ -191,14 +191,15 @@ $( function() {
         }
         redo(true);
     }
-    console.log(stepRecord);
+    redo(true);
     STEPS = stepRecord.length;
 
     var handle = $('#handle');
     var slider = $('#slider');
     $('#slider').slider({
         min: 1,
-        max: STEPS + 1
+        max: STEPS + 1,
+        value: STEPS + 1
     });
         
     var diff = 0;
