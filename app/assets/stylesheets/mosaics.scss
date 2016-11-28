@@ -248,6 +248,7 @@ a {
 #filter ul ul li{
 	display: block;
 	height: auto;
+    background-color: #DFD1C7;
     max-height: 200px;
     overflow-x: hidden;
 }
@@ -261,5 +262,9 @@ a {
 #filtertitle {
     font-size: 20px;
     background-color: #FFF;
+    font-weight: bold;
+}
+#filter .boldhover a:hover {
+    text-shadow: 2px 2px 2px black;
     font-weight: bold;
 }

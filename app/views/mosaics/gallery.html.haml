@@ -1,63 +1,73 @@
-#wrapper
-  #filter
-    %ul
-      #filtertitle 
-        Filter by: 
-      %li
-        %a{:href => "#"} Completed
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    = javascript_include_tag "gallery.js"
+  %body
+    #wrapper
+      #filter
         %ul
+          #filtertitle 
+            Filter by: 
           %li
-            = link_to 'Yes', gallery_path(:completed => "true")
-            = link_to 'No', gallery_path(:completed => "false")
-      %li
-        %a{:href => "#"} Total number of color used
-        %ul
+            %a{:href => "#"} Completed
+            %ul
+              %li
+                = link_to 'Yes', gallery_path(:completed => "true")
+                = link_to 'No', gallery_path(:completed => "false")
           %li
-            - for x in 0..22
-              = link_to "#{x}", gallery_path(:numcolors => "#{x}")
-      %li
-        %a{:href => "#"} Total number of moves
-        %ul
+            %a{:href => "#"}
+              Total number of colors used:
+              %span{:id => "colorcount", :style => "font-weight: bold;"}
+            %ul{:style => "width: 16em;"}
+              %li{:style => "overflow-y: hidden;"}
+                %div{:id => "colorcountslider", :style => "margin: 4px 1em;"}
+              %li
+                - for x in 0..22
+                  = link_to "#{x}", gallery_path(:numcolors => "#{x}")
           %li
-            = link_to '0', gallery_path(:nummoves => "0")
-            - for x in 1..20
-              - start = (x - 1) * 5 + 1
-              - last = start + 4
-              - range = "#{start} - #{last}"
-              = link_to "#{start} - #{last}", gallery_path(:nummoves => "#{range}")
-            = link_to 'Over 100', gallery_path(:nummoves => '101')
-      %li
-        %a{:href => "#"} Dominant color used
-        %ul
+            %a{:href => "#"}
+              Total number of moves:
+              %span{:id => "movescount", :style => "font-weight: bold;"}
+            %ul{:style => "width: 16em;"}
+              %li{:style => "overflow-y: hidden;"}
+                %div{:id => "movescountslider", :style => "margin: 4px 1em;"}
+              %li
+                = link_to '0', gallery_path(:nummoves => "0")
+                - for x in 1..20
+                  - start = (x - 1) * 5 + 1
+                  - last = start + 4
+                  - range = "#{start} - #{last}"
+                  = link_to "#{start} - #{last}", gallery_path(:nummoves => "#{range}")
+                = link_to 'Over 100', gallery_path(:nummoves => '101')
           %li
-            - Mosaic.colors.each do |color|
-              = link_to "#{color}", gallery_path(dominant: color)          
-              
-// A view to display list of galleries for the researchers.
-= form_tag download_gallery_path(:format => :csv), :method => :post, :id => 'mosaics_form' do
-  %table{:align => "center", :style => "border: 0px solid transparent; background-color: transparent;"}
-    #mosaic.mosaic
-      - @mosaics.each_slice(3) do |mosaic_slice|
-        %tr{:style => "padding: 50px; margin: 50px;"}
-          - mosaic_slice.each do |mosaic|
-            %td{:align => "center", :style => "padding: 50px; margin: 50px;"}
-              %h1{:align => "center", :style => "margin-bottom: 5px;"}= link_to "Mosaic ##{mosaic.id}", mosaic_path(mosaic)
-              %table{:align => "center", :cellpadding => "0", :cellspacing => "0"}
-                - mosaic.grid.split.each_slice(10) do |slice|
-                  %tr
-                    - slice.each do |color|
-                      %td{:align => "center"}
-                        .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
-
-              = check_box_tag "mosaics[#{mosaic.id}]", 1, @checked_mosaics.include?(mosaic.id.to_s)
-              = label_tag("Download")
-              
-  %center
-    = submit_tag "Download selected", :id => "download_button"
-%center   
-  = form_tag download_all_path(:format => :csv), :method => :post, :id => 'mosaics_form' do    
-    = submit_tag "Download all", :id => "downloadall_button"
-  = will_paginate(@mosaics, :remote => true)
-
-
-
+            %a{:href => "#"} Dominant color used
+            %ul
+              %li.boldhover
+                - Mosaic.colors.each do |color|
+                  = link_to "#{color}", gallery_path(dominant: color), :style => "color: white; text-shadow: 1px 1px 1px black; background-color: #{color};"
+                  
+    // A view to display list of galleries for the researchers.
+    = form_tag download_gallery_path(:format => :csv), :method => :post, :id => 'mosaics_form' do
+      %table{:align => "center", :style => "border: 0px solid transparent; background-color: transparent;"}
+        #mosaic.mosaic
+          - @mosaics.each_slice(3) do |mosaic_slice|
+            %tr{:style => "padding: 50px; margin: 50px;"}
+              - mosaic_slice.each do |mosaic|
+                %td{:align => "center", :style => "padding: 50px; margin: 50px;"}
+                  %h1{:align => "center", :style => "margin-bottom: 5px;"}= link_to "Mosaic ##{mosaic.id}", mosaic_path(mosaic)
+                  %table{:align => "center", :cellpadding => "0", :cellspacing => "0"}
+                    - mosaic.grid.split.each_slice(10) do |slice|
+                      %tr
+                        - slice.each do |color|
+                          %td{:align => "center"}
+                            .block{:style => "background-color: #{color}; width: 25px; height: 25px;"}
+    
+                  = check_box_tag "mosaics[#{mosaic.id}]", 1, @checked_mosaics.include?(mosaic.id.to_s)
+                  = label_tag("Download")
+                  
+      %center
+        = submit_tag "Download selected", :id => "download_button"
+    %center   
+      = form_tag download_all_path(:format => :csv), :method => :post, :id => 'mosaics_form' do    
+        = submit_tag "Download all", :id => "downloadall_button"
+      = will_paginate(@mosaics, :remote => true)
