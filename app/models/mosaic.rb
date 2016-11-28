@@ -50,7 +50,7 @@ class Mosaic < ActiveRecord::Base
     end
   end
   
-  # Mosaic.all(:user => session[:user_id]) code that returns all of the mosaics
-
+  # Mosaic.all(:user => @current_user) code that returns all of the mosaics
+  # call that in the gallery
   
 end
