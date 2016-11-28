@@ -49,6 +49,8 @@ class Mosaic < ActiveRecord::Base
       end
     end
   end
+  
+  # Mosaic.all(:user => session[:user_id]) code that returns all of the mosaics
 
   
 end
