@@ -45,7 +45,13 @@ class MosaicsController < ApplicationController
     @mosaic.update_attributes!(:steps => @mosaic.steps.push({timestamp: timestamp, tileId: tileId, color: color}))
     # Update grid
     if (tileId && tileId.to_i < 80) && (tileId && tileId.to_i >= 0)
+      
       newGrid = @mosaic.grid.split
+      # puts newGrid
+      if newGrid[tileId.to_i] != 'transparent'
+        @mosaic.decrement!(:newGrid[tileId.to_i], by = 1)
+      end
+      @mosaic.increment!(:color, by = 1)
       newGrid[tileId.to_i] = color
       @mosaic.update_attributes!(:grid => newGrid.join(' '))
     end
