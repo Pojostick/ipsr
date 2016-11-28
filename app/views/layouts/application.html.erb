@@ -4,8 +4,9 @@
     <meta name="google-site-verification" content="IIclim84fxrsmwLOT35ACYyzg2wPF3hc87FElBF-PV0" />
     <meta name="google-site-verification" content="fKydQx2JThacz7-X_6NfAnhc7BMZXBDyCNCNqiBNRmY" />
     <title>Google Auth</title>
-    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-no-turbolinks" => true %>
+    <%= javascript_include_tag "application", media: "all", "data-no-turbolinks" => true %>
+    <%= javascript_include_tag "mosaics", media: "all", "data-no-turbolinks" => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>

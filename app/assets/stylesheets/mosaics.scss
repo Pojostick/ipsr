@@ -202,3 +202,64 @@ a {
 .pagination a:active { border: 1px solid #000099; color: #000; } 
 .pagination span.current { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #000099; font-weight: bold; background-color: #000099; color: #FFF; } 
 .pagination span.disabled { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #eee; color: #ddd; }
+
+#wrapper{
+    background-color: #DFD1C7;
+	width: 960px;
+	margin: 40px auto;
+	text-align: left;
+}
+#filter ul{
+	list-style: none;
+	color: #000;
+	padding: 0;
+	margin: 0;
+}
+#filter ul li{
+	display: inline-block;
+}
+#filter ul li:hover{
+	background-color: #FFF;
+}
+#filter ul li a,visited{
+	display: block;
+	padding: 10px;
+	color: #000;
+	background-color: #DFD1C7;
+	text-decoration: none;
+}
+#filter ul li a:hover{
+	color: #444;
+}
+#filter > ul li:hover a{
+	color: #444;
+}
+
+#filter ul li:hover ul{
+	display: block;
+}
+#filter ul ul{
+	display: none;
+	position: absolute; 
+	background-color: #FFF;
+	color: #000;
+	min-width: 150px;
+}
+#filter ul ul li{
+	display: block;
+	height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+#filter ul ul li a:hover{
+	background-color: #F9F9F9;
+}
+#filter ul li:hover ul li a, visited{
+	color: #000;
+// 	text-align: center;
+}
+#filtertitle {
+    font-size: 20px;
+    background-color: #FFF;
+    font-weight: bold;
+}
