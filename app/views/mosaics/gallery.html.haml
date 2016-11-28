@@ -23,7 +23,8 @@
             - for x in 1..20
               - start = (x - 1) * 5 + 1
               - last = start + 4
-              = link_to "#{start} - #{last}", gallery_path(:nummoves => '#{start} - #{last}')
+              - range = "#{start} - #{last}"
+              = link_to "#{start} - #{last}", gallery_path(:nummoves => "#{range}")
             = link_to 'Over 100', gallery_path(:nummoves => '101')
       %li
         %a{:href => "#"} Dominant color used

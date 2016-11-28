@@ -3,15 +3,11 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     = javascript_include_tag "mosaics_show.js"
   %body
-    %div{:style => "display: flex; flex-direction: column; justify-content: center; height: 50px; background-color: #aaaaaa"}
-      %h1{:align => "center"} Viewing Mosaic ##{@mosaic.id}
-      %div{:id => "slider", :style => "float: left; margin-left: 50px; margin-right: 50px;"}
+    %div{:style => "display: flex; flex-direction: column; justify-content: center; height: auto; background-color: #aaaaaa"}
+      %h1{:align => "center", :style => "margin-bottom: 0px;"} Viewing Mosaic ##{@mosaic.id}
+      %div{:id => "slider", :style => "float: left; margin: 1em 50px 1em 50px;"}
         %div{:id => "handle", :class => "ui-slider-handle", :style => "width: 50px; text-align: center;"}
     #centerer.centerer
       #mosaic.mosaic
-        %table{:align => "center"}
-          - @mosaic.grid.split.each_slice(10).with_index do |slice, row|
-            %tr
-              - slice.each_with_index do |color, column|
-                %td{:align => "center"}
-                  .block{:id => 10 * row + column, :style => "background-color: #{color};"}
+        %canvas{:id => "display", :style => "border: 3px ridge rgba(127, 127, 127, 0.5); background-color: rgba(127, 127, 127, 0.25);"}
+  %div{:id => "APPDATA", :steps => "#{@mosaic.steps.map{|h| "#{h[:tileFrom]} #{h[:tileTo]} #{h[:color]}"}.join(',')}", :style => "display: none;"}

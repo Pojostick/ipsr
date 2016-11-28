@@ -11,7 +11,9 @@ $( function() {
         return "#" + byteToHex(rgb[0]) + byteToHex(rgb[1]) + byteToHex(rgb[2]);
     }
     var id = $("#APPDATA").attr("mosaic_id");
-    autosave = function(timestamp, tileIdData, colorData) {
+    var indexData = 0;
+    autosave = function(tileFromData, tileToData, colorData) {
+        if (tileFromData == tileToData) return;
         colorData.replace(" ", "");
         if (colorData.substring(0, 4) == "rgba") {
             colorData = "transparent"
@@ -23,8 +25,9 @@ $( function() {
             type: "POST",
             url: "/mosaics/autosave",
             data: { mosaic_id: id,
-                    time: timestamp,
-                    tileId: tileIdData,
+                    index: indexData++,
+                    tileFrom: tileFromData,
+                    tileTo: tileToData,
                     color:  colorData
             }
         });
@@ -33,9 +36,9 @@ $( function() {
         .droppable({
             drop: function(event, ui) {
                 if (ui.draggable[0].id.substring(0, 3) != "src") {
-                    console.log(Date.now() + ": Cleared " + ui.draggable[0].id + " of " + ui.draggable.css("background-color"));
+                    console.log(indexData + ": Cleared " + ui.draggable[0].id + " of " + ui.draggable.css("background-color"));
                     ui.draggable.css("background-color", "");
-                    autosave(Date.now(), ui.draggable[0].id, "transparent");
+                    autosave(ui.draggable[0].id, -1, "transparent");
                 }
             }
         });
@@ -55,13 +58,13 @@ $( function() {
             hoverClass: 'glow',
             drop: function(event, ui) {
                 if (ui.draggable[0].id.substring(0, 3) == "src") {
-                    console.log(Date.now() + ": Changed " + $(this)[0].id + " from " + $(this).css("background-color") + " to " + ui.draggable.css("background-color"));
+                    console.log(indexData + ": Changed " + $(this)[0].id + " from " + $(this).css("background-color") + " to " + ui.draggable.css("background-color"));
                     $(this).css("background-color", ui.draggable.css("background-color"));
-                    autosave(Date.now(), $(this)[0].id, ui.draggable.css("background-color"));
+                    autosave(-1, $(this)[0].id, ui.draggable.css("background-color"));
                 } else {
-                    console.log(Date.now() + ": Swapped " + $(this)[0].id + " and " + ui.draggable[0].id + " switching " + $(this).css("background-color") + " with " + ui.draggable.css("background-color"));
-                    autosave(Date.now(), $(this)[0].id, ui.draggable.css("background-color"));
-                    autosave(Date.now(), ui.draggable[0].id, $(this).css("background-color"));
+                    console.log(indexData + ": Swapped " + $(this)[0].id + " and " + ui.draggable[0].id + " switching " + $(this).css("background-color") + " with " + ui.draggable.css("background-color"));
+                    autosave(ui.draggable[0].id, $(this)[0].id, ui.draggable.css("background-color"));
+                    // autosave($(this)[0].id, ui.draggable[0].id, $(this).css("background-color"));
                     temp = $(this).css("background-color");
                     $(this).css("background-color", ui.draggable.css("background-color"));
                     ui.draggable.css("background-color", temp);
