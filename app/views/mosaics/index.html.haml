@@ -3,18 +3,6 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     = javascript_include_tag "mosaics_index.js"
   %body
-    %div{:id => "menu"}
-      %ul
-        %li= link_to "New Mosaic", new_mosaic_path()
-        %li= link_to "Gallery", gallery_path()
-        %li{:style => "float: right;"}
-          %div{:id => "timer-bar", :style => "width: 5em; height: 1.5em;"}
-            %div{:id => "timer", :style => "margin: 0px; height: 1.5em", :onclick => 'submit();'}
-    
-    -#%h1{:align => "center"} Mosaic Construction Test
-    -#- if flash[:notice]
-    -#  %h2{:align => "center"} #{flash[:notice]}
-    
     #centerer.centerer
       #selection.selection
         %table#selection_colors{:align => "center"}
@@ -35,3 +23,6 @@
                   - else
                     .block{:id => 10 * row + column, :style => "background-color: #{color};"}
     %div{:id => "APPDATA", :mosaic_id => @mosaic.id, :style => "display: none;"}
+    %li{:id => "submitbutton", :style => "float: right;"}
+      %div{:id => "timer-bar", :style => "width: 5em; height: 1.5em;"}
+        %div{:id => "timer", :style => "margin: 0px; height: 1.5em", :onclick => 'submit();'}

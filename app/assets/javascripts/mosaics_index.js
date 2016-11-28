@@ -1,4 +1,7 @@
 $( function() {
+    submitbutton = $("#submitbutton").detach();
+    submitbutton.appendTo($("#menubar"));
+    
     function byteToHex(c) {
         var hex = parseInt(c).toString(16);
         return hex.length == 1 ? "0" + hex : hex;
@@ -76,7 +79,7 @@ $( function() {
         })
         .addClass("ui-widget-content");
 
-    submit = function() {
+    submit = function(timeout) {
         if (time == -1) return;
         time = -1;
         $(".block").draggable("disable");
@@ -86,8 +89,8 @@ $( function() {
         $("#timer-bar > div").css("background-color", "#fb8");
         hide_time = show_time = function() {};
         clearTimeout(timer);
-        alert("Thanks for submitting your survey. The test is now over. [DEVS: open console for output log]");
-        $.ajax({type: "GET", url: "/mosaics/" + id});
+        alert((timeout ? "Time's up. Thanks for completing" : "Thanks for submitting") + " your mosaic!");
+        window.location.href = "/mosaics/" + id;
     }
     
     var TIME = 1800;
@@ -115,7 +118,7 @@ $( function() {
             timer = setTimeout(progress, 1000);
             update();
         } else {
-            submit();
+            submit(true);
         }
     }, 0);
 });
