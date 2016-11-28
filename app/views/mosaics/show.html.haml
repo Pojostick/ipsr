@@ -1,8 +1,12 @@
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    = javascript_include_tag "mosaics_show.js"
   %body
-    %h1{:align => "center"} Viewing Mosaic ##{@mosaic.id}
+    %div{:style => "display: flex; flex-direction: column; justify-content: center; height: 50px; background-color: #aaaaaa"}
+      %h1{:align => "center"} Viewing Mosaic ##{@mosaic.id}
+      %div{:id => "slider", :style => "float: left; margin-left: 50px; margin-right: 50px;"}
+        %div{:id => "handle", :class => "ui-slider-handle", :style => "width: 50px; text-align: center;"}
     #centerer.centerer
       #mosaic.mosaic
         %table{:align => "center"}
