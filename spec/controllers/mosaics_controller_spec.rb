@@ -46,6 +46,12 @@ RSpec.describe MosaicsController, type: :controller do
       expect{ get 'show', {id: 1}}.not_to raise_error
     end
     
+    it "should block unauthorized users from viewing other mosaics" do
+        session[:user_id] = 0
+        get 'show', {id: 1}
+        expect(response.body).to eq "<html>You do not have permissions to view this mosaic.</html>"
+    end
+    
     it "should be able to autosave" do
       expect{ get 'autosave', {:mosaic_id => 1, :time => Time.now.asctime, :tileId => "1", :color => "#302988"}}.not_to raise_error
     end
