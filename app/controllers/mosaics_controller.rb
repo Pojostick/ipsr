@@ -25,7 +25,7 @@ class MosaicsController < ApplicationController
   # Create before test and put id into session hash
   def new
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user => @current_user, :completed => false, :number_of_colors => "0", :dominant_color => "transparent")
+    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user_id => session[:user_id], :completed => false, :number_of_colors => "0", :dominant_color => "transparent")
     if flash[:notice]
       flash[:notice] += "Created test ##{@mosaic.id}"
     else
@@ -87,23 +87,23 @@ class MosaicsController < ApplicationController
       else
         @check = false
       end
-      @mosaics = Mosaic.where(completed: @check)
+      @mosaics = Mosaic.where(completed: @check, :user =>  session[:user_id])
     elsif params[:numcolors]
-      @mosaics = Mosaic.where(step_counter: params[:numcolors])
+      @mosaics = Mosaic.where(step_counter: params[:numcolors], :user =>  session[:user_id])
     elsif params[:nummoves]
       @movenum = params[:nummoves]
       if @movenum.length == 1
-        @mosaics = Mosaic.where(step_counter: 0)
+        @mosaics = Mosaic.where(step_counter: 0, :user => session[:user_id])
       elsif @movenum.length == 3
-        @mosaics = Mosaic.where("step_counter > ?", 100)
+        @mosaics = Mosaic.where("step_counter > ?", 100, :user => session[:user_id])
       else
         @range = @movenum.split(' - ')
-        @mosaics = Mosaic.where(:step_counter => @range[0]..@range[1])
+        @mosaics = Mosaic.where(:step_counter => @range[0]..@range[1], :user => session[:user_id])
       end
     elsif params[:dominant]
-      @mosaics = Mosaic.where(dominant_color: params[:dominant])
+      @mosaics = Mosaic.where(dominant_color: params[:dominant], :user => session[:user_id])
     else
-    @mosaics = Mosaic.all
+    @mosaics = Mosaic.where(:user => session[:user_id])
     end
     session[:checked_mosaics] = @checked_mosaics.split(" ").map { |s| s.to_i }.uniq
     @mosaics = @mosaics.paginate(:page => params[:page], per_page: 9)
