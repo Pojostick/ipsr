@@ -87,23 +87,23 @@ class MosaicsController < ApplicationController
       else
         @check = false
       end
-      @mosaics = Mosaic.where(completed: @check)
+      @mosaics = Mosaic.where(completed: @check, :user => @current_user)
     elsif params[:numcolors]
-      @mosaics = Mosaic.where(step_counter: params[:numcolors])
+      @mosaics = Mosaic.where(step_counter: params[:numcolors], :user => @current_user)
     elsif params[:nummoves]
       @movenum = params[:nummoves]
       if @movenum.length == 1
-        @mosaics = Mosaic.where(step_counter: 0)
+        @mosaics = Mosaic.where(step_counter: 0, :user => @current_user)
       elsif @movenum.length == 3
-        @mosaics = Mosaic.where("step_counter > ?", 100)
+        @mosaics = Mosaic.where("step_counter > ?", 100, :user => @current_user)
       else
         @range = @movenum.split(' - ')
-        @mosaics = Mosaic.where(:step_counter => @range[0]..@range[1])
+        @mosaics = Mosaic.where(:step_counter => @range[0]..@range[1], :user => @current_user)
       end
     elsif params[:dominant]
-      @mosaics = Mosaic.where(dominant_color: params[:dominant])
+      @mosaics = Mosaic.where(dominant_color: params[:dominant], :user => @current_user)
     else
-    @mosaics = Mosaic.all
+    @mosaics = Mosaic.where(:user => @current_user)
     end
     session[:checked_mosaics] = @checked_mosaics.split(" ").map { |s| s.to_i }.uniq
     @mosaics = @mosaics.paginate(:page => params[:page], per_page: 9)
