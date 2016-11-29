@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Google Auth Example App</title>
-    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <meta name="google-site-verification" content="IIclim84fxrsmwLOT35ACYyzg2wPF3hc87FElBF-PV0" />
+    <meta name="google-site-verification" content="fKydQx2JThacz7-X_6NfAnhc7BMZXBDyCNCNqiBNRmY" />
+    <title>IPSR Mosaics</title>
+    <%= stylesheet_link_tag    "application", media: "all", "data-no-turbolinks" => true %>
+    <%= javascript_include_tag "application", media: "all", "data-no-turbolinks" => true %>
+    <%= javascript_include_tag "mosaics", media: "all", "data-no-turbolinks" => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div>
-      <% if current_user %>
-        Signed in as <strong><%= current_user.name %></strong>!
-        <%= link_to "Sign out", signout_path, id: "sign_out" %>
-      <% else %>
-        <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
-      <% end %>
+    <div id="menu">
+      <ul id="menubar">
+        <li><%= link_to "New Mosaic", new_mosaic_path() %></li>
+        <li><%= link_to "Gallery", gallery_path() %></li>
+
+        <% if current_user %>
+          <li style="float: right;">
+            <span style="color: gray">Signed in as <strong style="color: lightgray"><%= current_user.name %>!</strong></span>
+            <%=link_to "Sign out", signout_path, id: "sign_out" %>
+          </li>
+        <% else %>
+          <li style="float: right;"><%=link_to image_tag("/images/google_signin_2x.png", "width" => "200em"), "/auth/google_oauth2", id: "sign_in" %></li>
+        <% end %>
+        <li style="float: right; width: 1em; height: 100%; border-left: black solid 2px;"></li>
+        <li style="float: right; width: 1em; height: 100%;"></li>
+      </ul>
     </div>
     <div>
     <%= yield %>

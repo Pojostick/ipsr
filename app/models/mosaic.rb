@@ -3,6 +3,7 @@ class Mosaic < ActiveRecord::Base
   require "csv"
   serialize :steps, Array
   serialize :grids, Array
+  belongs_to :user
   
   def self.colors
     %w' #3977ad
@@ -38,7 +39,7 @@ class Mosaic < ActiveRecord::Base
   # end
   
   def self.to_csv
-    attributes = %w{steps grid}
+    attributes = %w{id steps grid step_counter completed number_of_colors dominant_color}
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
@@ -48,6 +49,8 @@ class Mosaic < ActiveRecord::Base
       end
     end
   end
+  
+  # Mosaic.all(:user => session[:user_id]) code that returns all of the mosaics
 
   
 end

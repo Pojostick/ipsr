@@ -1,4 +1,7 @@
 $( function() {
+    submitbutton = $("#submitbutton").detach();
+    submitbutton.appendTo($("#menubar"));
+    
     function byteToHex(c) {
         var hex = parseInt(c).toString(16);
         return hex.length == 1 ? "0" + hex : hex;
@@ -8,7 +11,9 @@ $( function() {
         return "#" + byteToHex(rgb[0]) + byteToHex(rgb[1]) + byteToHex(rgb[2]);
     }
     var id = $("#APPDATA").attr("mosaic_id");
-    autosave = function(timestamp, tileIdData, colorData) {
+    var indexData = 0;
+    autosave = function(tileFromData, tileToData, colorData) {
+        if (tileFromData == tileToData) return;
         colorData.replace(" ", "");
         if (colorData.substring(0, 4) == "rgba") {
             colorData = "transparent"
@@ -20,8 +25,9 @@ $( function() {
             type: "POST",
             url: "/mosaics/autosave",
             data: { mosaic_id: id,
-                    time: timestamp,
-                    tileId: tileIdData,
+                    index: indexData++,
+                    tileFrom: tileFromData,
+                    tileTo: tileToData,
                     color:  colorData
             }
         });
@@ -30,9 +36,9 @@ $( function() {
         .droppable({
             drop: function(event, ui) {
                 if (ui.draggable[0].id.substring(0, 3) != "src") {
-                    console.log(Date.now() + ": Cleared " + ui.draggable[0].id + " of " + ui.draggable.css("background-color"));
+                    console.log(indexData + ": Cleared " + ui.draggable[0].id + " of " + ui.draggable.css("background-color"));
                     ui.draggable.css("background-color", "");
-                    autosave(Date.now(), ui.draggable[0].id, "transparent");
+                    autosave(ui.draggable[0].id, -1, "transparent");
                 }
             }
         });
@@ -52,13 +58,13 @@ $( function() {
             hoverClass: 'glow',
             drop: function(event, ui) {
                 if (ui.draggable[0].id.substring(0, 3) == "src") {
-                    console.log(Date.now() + ": Changed " + $(this)[0].id + " from " + $(this).css("background-color") + " to " + ui.draggable.css("background-color"));
+                    console.log(indexData + ": Changed " + $(this)[0].id + " from " + $(this).css("background-color") + " to " + ui.draggable.css("background-color"));
                     $(this).css("background-color", ui.draggable.css("background-color"));
-                    autosave(Date.now(), $(this)[0].id, ui.draggable.css("background-color"));
+                    autosave(-1, $(this)[0].id, ui.draggable.css("background-color"));
                 } else {
-                    console.log(Date.now() + ": Swapped " + $(this)[0].id + " and " + ui.draggable[0].id + " switching " + $(this).css("background-color") + " with " + ui.draggable.css("background-color"));
-                    autosave(Date.now(), $(this)[0].id, ui.draggable.css("background-color"));
-                    autosave(Date.now(), ui.draggable[0].id, $(this).css("background-color"));
+                    console.log(indexData + ": Swapped " + $(this)[0].id + " and " + ui.draggable[0].id + " switching " + $(this).css("background-color") + " with " + ui.draggable.css("background-color"));
+                    autosave(ui.draggable[0].id, $(this)[0].id, ui.draggable.css("background-color"));
+                    // autosave($(this)[0].id, ui.draggable[0].id, $(this).css("background-color"));
                     temp = $(this).css("background-color");
                     $(this).css("background-color", ui.draggable.css("background-color"));
                     ui.draggable.css("background-color", temp);
@@ -76,46 +82,46 @@ $( function() {
         })
         .addClass("ui-widget-content");
 
-    submit = function() {
+    submit = function(timeout) {
+        if (time == -1) return;
+        time = -1;
         $(".block").draggable("disable");
-        console.log(Date.now() + ": End");
+        $("#timer").css("cursor", "wait");
+        $("#timer").text("Submitting test...");
+        $("#timer-bar").progressbar("value", 100);
+        $("#timer-bar > div").css("background-color", "#fb8");
+        hide_time = show_time = function() {};
         clearTimeout(timer);
-        alert("Thanks for submitting your survey. The test is now over. [DEVS: open console for output log]");
-        $.ajax({type: "GET", url: "/mosaics/" + id});
+        alert((timeout ? "Time's up. Thanks for completing" : "Thanks for submitting") + " your mosaic!");
+        window.location.href = "/mosaics/" + id;
     }
     
-    
-    //////////////// TIMER STUFF ////////////////////
-    var TIME = 300;
+    var TIME = 1800;
     var time = TIME;
+    var start = Date.now();
     
-    // Non-intrusive timer (only color).
-    discreet_timer = function() {
-        if (time/TIME <= 0.2) {
-            explicit_timer();
-        } else {
-            $("#timer").text("Click to Submit");
-            $("#timer-bar").progressbar("value", 100);
-        }
+    hide_time = function() {
+        $("#timer").text("Submit");
+        $("#timer-bar").progressbar("value", 100);
     };
     
-    // Timer with progress bar and time. 
-    explicit_timer = function() {
+    show_time = function() {
         $("#timer").text(Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + time % 60);
         $("#timer-bar").progressbar("value", time / (TIME / 100));
     };
     
-    $( "#timer-bar" ).progressbar();
-    discreet_timer();
+    var update = hide_time;
+    
+    $("#timer-bar").progressbar();
+    $("#timer-bar").hover(function() {update = show_time; update()},
+                          function() {update = hide_time; update()});
     timer = setTimeout(function progress() {
         if (time > 0) {
-            $("#timer-bar").mouseenter(explicit_timer).mouseleave(discreet_timer);
-            $("#timer-bar > div").css("background-color", "hsl(" + Math.floor(time / (TIME * 5 / 600)) + ", 100%, 50%)")
-            time -= 1;
+            time = TIME - Math.floor((Date.now() - start) / 1000);
             timer = setTimeout(progress, 1000);
+            update();
         } else {
-            submit();
+            submit(true);
         }
     }, 0);
-    console.log(Date.now() + ": Start");
 });

@@ -25,7 +25,7 @@ class MosaicsController < ApplicationController
   # Create before test and put id into session hash
   def new
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new)
+    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user => @current_user)
     if flash[:notice]
       flash[:notice] += "Created test ##{@mosaic.id}"
     else
@@ -82,6 +82,5 @@ class MosaicsController < ApplicationController
       format.csv { send_data @mosaics.to_csv, filename: "All_Mosaics-#{Date.today}.csv" }
     end
   end
-  
-  
 end
+

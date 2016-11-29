@@ -11,7 +11,7 @@ html {
 body {
     color: black;
     background-color: white;
-
+    font-family: "Arial";
     margin: 0;
     width: 100%;
     min-height: 100%;
@@ -46,6 +46,7 @@ table {
     height: 50px;
     border: 2px ridge rgb(63, 63, 63);
     border-collapse: collapse;
+    z-index: 1;
 }
 
 .block:hover {
@@ -76,14 +77,13 @@ table {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1em;
+    padding-top: 1em;
 }
 
 .selection {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 25px;
     float: left;
 }
 
@@ -104,16 +104,14 @@ table {
 }
 
 #timer-bar > div {
-    background: black;
+    background: #8bf;
 }
 
 #timer-bar {
-    margin: auto;
-    margin-bottom: 1em;
-    width:50%; 
-    padding:0px;
+    font-family: "Arial";
     background: rgba(255, 255, 255, 0.25);
     text-align: center;
+    float: right;
 }
 
 #timer {
@@ -121,8 +119,50 @@ table {
     width: 100%;
     height: 100%;
     font-weight: bold;
-    color: #ddeeff;
+    color: white;
     text-shadow: 0px 0px 5px black;
+    cursor: pointer;
+}
+
+#menu {
+    outline: black solid 2px;
+    background-color: #444;
+    height: 1.5em;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#menu li {
+    float: left;
+}
+
+#menu li text {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 3px 16px;
+    text-decoration: none;
+}
+
+#menu li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 3px 16px;
+    text-decoration: none;
+    transition: background-color 0.25s;
+}
+
+#menu li a:hover {
+    background-color: #000000;
+    transition: background-color 0.05s;
 }
 
 a {
@@ -134,6 +174,7 @@ a {
 
 #download_button {
     color: white;
+    border: 2px;
     height: 35px;
     font-size: 16px;
     margin-bottom: 20px;
@@ -161,3 +202,64 @@ a {
 .pagination a:active { border: 1px solid #000099; color: #000; } 
 .pagination span.current { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #000099; font-weight: bold; background-color: #000099; color: #FFF; } 
 .pagination span.disabled { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #eee; color: #ddd; }
+
+#wrapper{
+    background-color: #DFD1C7;
+	width: 960px;
+	margin: 40px auto;
+	text-align: left;
+}
+#filter ul{
+	list-style: none;
+	color: #000;
+	padding: 0;
+	margin: 0;
+}
+#filter ul li{
+	display: inline-block;
+}
+#filter ul li:hover{
+	background-color: #FFF;
+}
+#filter ul li a,visited{
+	display: block;
+	padding: 10px;
+	color: #000;
+	background-color: #DFD1C7;
+	text-decoration: none;
+}
+#filter ul li a:hover{
+	color: #444;
+}
+#filter > ul li:hover a{
+	color: #444;
+}
+
+#filter ul li:hover ul{
+	display: block;
+}
+#filter ul ul{
+	display: none;
+	position: absolute; 
+	background-color: #FFF;
+	color: #000;
+	min-width: 150px;
+}
+#filter ul ul li{
+	display: block;
+	height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+#filter ul ul li a:hover{
+	background-color: #F9F9F9;
+}
+#filter ul li:hover ul li a, visited{
+	color: #000;
+// 	text-align: center;
+}
+#filtertitle {
+    font-size: 20px;
+    background-color: #FFF;
+    font-weight: bold;
+}

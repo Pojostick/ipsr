@@ -13,6 +13,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'jasmine-rails' # if you plan to use JavaScript/CoffeeScript
+  
 end
 
 group :test do
@@ -51,6 +52,7 @@ gem 'haml'
 gem 'protected_attributes'
 
 gem 'will_paginate', '~> 3.1.0'  # Tian added it for pagination
+gem 'to_csv-rails'# Last officially released gem
 # gem 'bootstrap-sass', '~> 3.2.0' # Tian added it for pagination render
 # gem 'will_paginate-bootstrap'
 # Use unicorn as the web server
@@ -82,7 +84,7 @@ gem 'will_paginate', '~> 3.1.0'  # Tian added it for pagination
 # # Use jquery as the JavaScript library
 # gem 'jquery-rails'
 # # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+# gem 'turbolinks'
 # # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.0'
 # # bundle exec rake doc:rails generates the API under doc/api.

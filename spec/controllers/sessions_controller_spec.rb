@@ -8,13 +8,13 @@ RSpec.describe SessionsController, type: :controller do
     end
     
     describe "#create" do
-=begin
+#=begin
         it 'should successfully create a user' do
             expect {
                 post :create, provider: :google
             }. to change{User.count}.by(1)
         end
-=end
+#=end
         it "should successfully create a session" do 
             session[:user_id].should be_nil
         end
