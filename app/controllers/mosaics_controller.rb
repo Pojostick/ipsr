@@ -71,6 +71,9 @@ class MosaicsController < ApplicationController
   
   def show
     @mosaic = Mosaic.find(params[:id])
+    if @mosaic.user_id != session[:user_id]
+      render :text => "<html>You do not have permissions to view this mosaic.</html>".html_safe
+    end
   end
   
   def gallery
