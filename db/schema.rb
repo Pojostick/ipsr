@@ -20,10 +20,10 @@ ActiveRecord::Schema.define(version: 20161128022406) do
     t.datetime "updated_at",       null: false
     t.string   "grids"
     t.integer  "step_counter"
+    t.integer  "user_id"
     t.boolean  "completed"
     t.integer  "number_of_colors"
     t.string   "dominant_color"
-    t.integer  "user_id"
   end
 
   add_index "mosaics", ["user_id"], name: "index_mosaics_on_user_id"
