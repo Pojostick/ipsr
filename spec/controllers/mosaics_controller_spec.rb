@@ -88,4 +88,33 @@ RSpec.describe MosaicsController, type: :controller do
             get :gallery, {:page => 9, per_page: 9}
         end
     end
+    
+    describe "Gallery" do 
+        it "should check mosaics" do
+            params = {:checked => "fake mosaic data"}
+            get :gallery
+            expect(:checked_mosaics).to be_truthy
+        end
+        
+        it "should not complete mosaics" do 
+            params = {:completed => " "}
+            get :gallery
+            #expect(:check).to be_falsey
+        end
+        
+        it "should complete mosaics" do 
+            params = {:completed => "true"}
+            get :gallery
+            expect(:check).to be_truthy
+        end
+        
+        it "should check numcolors" do
+            session[:user_id] = 123
+            #@fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grids => Array.new, :user => 123)
+            params = {:numcolors => 3}
+            get :gallery
+            #expect(:mosaics).to respond_to "123"
+        end
+    end
+        
 end		 
