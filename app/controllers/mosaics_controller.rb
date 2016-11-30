@@ -39,6 +39,14 @@ class MosaicsController < ApplicationController
   # used to save latest changes while taking test
   def autosave
     @mosaic = Mosaic.find params[:mosaic_id]
+    if @mosaic.time_taken
+      return
+    end
+    time_taken = params[:time_taken]
+    if time_taken
+      @mosaic.update_attributes!({:time_taken => time_taken, :time_left => 0, :time_submitted => Time.now})
+      return
+    end
     begin
       index = params[:index].to_i
       tileFrom = params[:tileFrom]
