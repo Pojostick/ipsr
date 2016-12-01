@@ -82,4 +82,11 @@ RSpec.describe MosaicsController, type: :controller do
             get :gallery, {:page => 9, per_page: 9}
         end
     end
+    
+    decribe "Filter Mosaic" do
+        before :each do
+            @mock_mosaic = double('Mosaic', {:steps => '[]', :grid => 'transparent', :step_counter => "1", })
+        end
+        
+    end
 end		 

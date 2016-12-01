@@ -1,7 +1,10 @@
 Given /^the following images exist:$/ do |table|
+
 	table.hashes.each do |mosaic|
+  grid = mosaic[:grid] + " transparent"*(79 - mosaic[:grid].count(' '))
 		Mosaic.new(:steps => mosaic[:steps],
-				 :grid => mosaic[:grid]).save!
+				 :grid => grid, :step_counter => mosaic[:step_counter], :number_of_colors => mosaic[:number_of_colors],
+				 :dominant_color => mosaic[:dominant_color]).save!
 	end
 end
 
@@ -10,6 +13,7 @@ When (/^I follow the link mosaic(.*)$/) do |mosaic_id|
 end
 
 When /^(?:|I )check download box for mosaic with grid: "([^"]*)"$/ do |grid|
+  grid = grid + " transparent"*(79 - grid.count(' '))
   mosaic = Mosaic.find_by_grid(grid)
   check("mosaics_#{mosaic.id}")
 end

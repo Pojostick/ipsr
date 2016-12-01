@@ -65,9 +65,10 @@ $( function() {
                     console.log(indexData + ": Swapped " + $(this)[0].id + " and " + ui.draggable[0].id + " switching " + $(this).css("background-color") + " with " + ui.draggable.css("background-color"));
                     autosave(ui.draggable[0].id, $(this)[0].id, ui.draggable.css("background-color"));
                     // autosave($(this)[0].id, ui.draggable[0].id, $(this).css("background-color"));
-                    temp = $(this).css("background-color");
+                    // temp = $(this).css("background-color");
                     $(this).css("background-color", ui.draggable.css("background-color"));
-                    ui.draggable.css("background-color", temp);
+                    // ui.draggable.css("background-color", temp);
+                    ui.draggable.css("background-color", "");
                 }
             },
             greedy: true,

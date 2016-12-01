@@ -1,0 +1,25 @@
+%html
+  %body
+    #centerer.centerer
+      =form_tag(:controller => :mosaics, :action => :new) do
+        %label{:for => "mosaic_id"} Mosaic ID (do not change this unless you know what you are doing!)
+        %br
+        %input{:type => "number", :name => "mosaic_id", :value => "#{@mosaic.id}"}
+        %br
+        %hr
+        %label{:for => "info"} Instructions for the subject:
+        %br
+        %textarea{:type => "text", :name => "info", :style => "width: 25em; height: 5em;"}
+          Click and Drag tiles to build your own Mosaic! You have 30 minutes to do so. Have fun!
+        %br
+        %br
+        %label{:for => "width"} Width:
+        %input{:type => "number", :name => "width", :value => 10}
+        %br
+        %label{:for => "height"} Height:
+        %input{:type => "number", :name => "height", :value => 8}
+        %br
+        %label{:for => "time"} Time in minutes:
+        %input{:type => "number", :name => "time", :value => 30}
+        %br
+        =button_tag "Create Mosaic", :type => :submit

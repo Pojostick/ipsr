@@ -53,7 +53,7 @@ $( function() {
         };
     };
     
-    var Step = function(tile, ax, ay, az, bx, by, bz) {
+    var Step = function(tile, ax, ay, az, bx, by, bz, instant) {
         this.id = undefined;
         this.tile = tile;
         this.ax = ax;
@@ -62,6 +62,7 @@ $( function() {
         this.bx = bx;
         this.by = by;
         this.bz = bz;
+        this.instant = instant;
         this.progress = 0;
         this.do = function() {
             var success = true;
@@ -92,7 +93,7 @@ $( function() {
                     }
                     record.tile.animation = false;
                 }
-                if (instant) {
+                if (instant || record.instant) {
                     record.progress = 1;
                     record.do();
                 } else {
@@ -133,7 +134,7 @@ $( function() {
                     }
                     record.tile.animation = false;
                 }
-                if (instant) {
+                if (instant || record.instant) {
                     record.progress = 0;
                     record.do();
                 } else {
@@ -182,7 +183,7 @@ $( function() {
             grid[tileFrom] = tilef;
             grid[tileTo] = tilei;
             if (tilei && tilef) {
-                stepRecord.push([new Step(tilei, xi, yi, 1, xf, yf, 1)], [new Step(tilef, xf, yf, 1, xi, yi, 1)]);
+                stepRecord.push([new Step(tilef, xf, yf, 1, xf, yf, 0, true), new Step(tilei, xi, yi, 1, xf, yf, 1)]);
             } else if (tilei) {
                 stepRecord.push([new Step(tilei, xi, yi, 1, xf, yf, 1)]);
             } else if (tilef) {

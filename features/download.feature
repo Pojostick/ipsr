@@ -7,9 +7,9 @@ Feature: download current section of completed tests
   
 Background: images have been added in images folder
   Given the following images exist:
-	  | steps                                          `                  | grid                    |
-	  | [{:timestamp=>"1479168193064", :tileId=>"2", :color=>"#1d5b46"}]  | #7b3a42 #d6b027 #982b31 |
-	  | []                                                                | transparent             |
+	  | steps                                          `                  | grid                    |step_counter|completed|number_of_colors |dominant_color|
+	  | [{:timestamp=>"1479168193064", :tileId=>"2", :color=>"#1d5b46"}]  | #7b3a42 #d6b027 #982b31 |1           |true     |3                |#1d5b46       |
+	  | []                                                                | transparent             |0           |false    |0                |              |
   And  I am on the gallery page
 
 Scenario: redirect to gallery page if clicking the download selected without selecting any box

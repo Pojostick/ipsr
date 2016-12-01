@@ -24,15 +24,20 @@ class MosaicsController < ApplicationController
   
   # Create before test and put id into session hash
   def new
-    @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user => @current_user, :completed => false, :number_of_colors => "0", :dominant_color => "transparent")
-    if flash[:notice]
-      flash[:notice] += "Created test ##{@mosaic.id}"
+    if params[:mosaic_id]
+      redirect_to :controller => :mosaics, :action => :index, :mosaic_id => params[:mosaic_id]
     else
-      flash[:notice] = "Created test ##{@mosaic.id}"
+      @mosaic = Mosaic.new
+      @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user => @current_user, :completed => false, :number_of_colors => "0", :dominant_color => "transparent")
+      if flash[:notice]
+        flash[:notice] += "Created test ##{@mosaic.id}"
+      else
+        flash[:notice] = "Created test ##{@mosaic.id}"
+      end
+      flash.keep
+      # redirect_to :controller => :mosaics, :action => :index, :mosaic_id => @mosaic.id
+      render "new"
     end
-    flash.keep
-    redirect_to :controller => :mosaics, :action => :index, :mosaic_id => @mosaic.id
   end
   
   # Called every 5 seconds OR (hard limit) number of moves
@@ -120,7 +125,7 @@ class MosaicsController < ApplicationController
     respond_to do |format|
       format.csv { send_data @mosaics.to_csv, filename: "Mosaics-#{Date.today}.csv" }
     end
-    session.clear
+    session.delete(:checked_mosaics)
   end
   
   def download_all
