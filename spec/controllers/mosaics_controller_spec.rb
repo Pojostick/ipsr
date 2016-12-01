@@ -6,7 +6,7 @@ RSpec.describe MosaicsController, type: :controller do
         before(:each) do 
             session[:user_id] = 123
             @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grids => Array.new, :user => 123)
-            @args = {:mosaic_id => 1, :time => Time.now.asctime, :tileId => "0", :color => "8060930"}
+            @args = {:mosaic_id => "01", :time => Time.now.asctime, :tileId => "0", :color => "8060930"}
             expect(Mosaic).to receive(:find).with("01").and_return(@fake_mosaic)
         end
          
