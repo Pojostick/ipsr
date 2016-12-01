@@ -9,42 +9,41 @@
           #filtertitle 
             Filter by: 
           %li
-            %a{:href => "#"} Completed
-            %ul
-              %li
-                = link_to 'Yes', gallery_path(:completed => "true")
-                = link_to 'No', gallery_path(:completed => "false")
+            %a{:href => "#"}
+              Completion:
+              %span{:id => "complete", :style => "font-weight: bold;"}
+            %ul{:style => "width: 16em;"}
+              %li{:style => "overflow-y: hidden;"}
+                %div{:id => "completeslider", :style => "margin: 4px 1em;"}
           %li
             %a{:href => "#"}
-              Total number of colors used:
+              Distinct colors:
               %span{:id => "colorcount", :style => "font-weight: bold;"}
             %ul{:style => "width: 16em;"}
               %li{:style => "overflow-y: hidden;"}
                 %div{:id => "colorcountslider", :style => "margin: 4px 1em;"}
-              %li
-                - for x in 0..22
-                  = link_to "#{x}", gallery_path(:numcolors => "#{x}")
           %li
             %a{:href => "#"}
-              Total number of moves:
+              Moves used:
               %span{:id => "movescount", :style => "font-weight: bold;"}
             %ul{:style => "width: 16em;"}
               %li{:style => "overflow-y: hidden;"}
                 %div{:id => "movescountslider", :style => "margin: 4px 1em;"}
-              %li
-                = link_to '0', gallery_path(:nummoves => "0")
-                - for x in 1..20
-                  - start = (x - 1) * 5 + 1
-                  - last = start + 4
-                  - range = "#{start} - #{last}"
-                  = link_to "#{start} - #{last}", gallery_path(:nummoves => "#{range}")
-                = link_to 'Over 100', gallery_path(:nummoves => '101')
+          -# %li
+          -#   %a{:href => "#"} Dominant color
+          -#   %ul
+          -#     %li.boldhover
+          -#       - Mosaic.colors.each do |color|
+          -#         = link_to "#{color}", gallery_path(dominant: color), :style => "color: white; text-shadow: 1px 1px 1px black; background-color: #{color};"
           %li
-            %a{:href => "#"} Dominant color used
-            %ul
-              %li.boldhover
-                - Mosaic.colors.each do |color|
-                  = link_to "#{color}", gallery_path(dominant: color), :style => "color: white; text-shadow: 1px 1px 1px black; background-color: #{color};"
+            %a{:href => "#"}
+              Time taken:
+              %span{:id => "timetaken", :style => "font-weight: bold;"}
+            %ul{:style => "width: 16em;"}
+              %li{:style => "overflow-y: hidden;"}
+                %div{:id => "timetakenslider", :style => "margin: 4px 1em;"}
+          %li{:style => "float: right;"}
+            %a{:id => "refresh", :href => "#"} Refresh
                   
     // A view to display list of galleries for the researchers.
     = form_tag download_gallery_path(:format => :csv), :method => :post, :id => 'mosaics_form' do
@@ -71,3 +70,4 @@
       = form_tag download_all_path(:format => :csv), :method => :post, :id => 'mosaics_form' do    
         = submit_tag "Download all", :id => "downloadall_button"
       = will_paginate(@mosaics, :remote => true)
+    %div{@APPDATA, :id => "APPDATA"}

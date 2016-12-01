@@ -1,14 +1,4 @@
 $( function() {
-    // USE AJAX API GET CALL
-    // DELETE IF NOT GOING TO BE USED (need to make route to work)
-    $.ajax({
-        type: "GET",
-        url: "/mosaics/1",
-    }).done(function( data ) {
-        console.log( "Sample of data:", data.slice( 0, 100 ) );
-    });
-
-    // HACKY BYPASS
     var steps = $("#APPDATA").attr("steps");
     var WIDTH = parseInt($("#APPDATA").attr("width"));
     var HEIGHT = parseInt($("#APPDATA").attr("height"));
@@ -166,10 +156,10 @@ $( function() {
         if (step.length == 1) continue;
         var tileFrom = parseInt(step[0]);
         var tileTo = parseInt(step[1]);
-        var xi = tileFrom % 10;
-        var yi = Math.floor(tileFrom / 10);
-        var xf = tileTo % 10;
-        var yf = Math.floor(tileTo / 10);
+        var xi = tileFrom % WIDTH;
+        var yi = Math.floor(tileFrom / WIDTH);
+        var xf = tileTo % WIDTH;
+        var yf = Math.floor(tileTo / WIDTH);
         if (tileFrom == -1 && tileTo != -1) {
             var tile = new Tile(step[2], xf, yf, 0);
             grid[tileTo] = tile;

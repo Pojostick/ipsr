@@ -127,7 +127,7 @@ table {
 #menu {
     outline: black solid 2px;
     background-color: #444;
-    height: 1.5em;
+    height: 2em;
 }
 
 #menu ul {
@@ -143,19 +143,11 @@ table {
     float: left;
 }
 
-#menu li text {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 3px 16px;
-    text-decoration: none;
-}
-
 #menu li a {
     display: inline-block;
     color: white;
     text-align: center;
-    padding: 3px 16px;
+    padding: 0.5em 1.25em;
     text-decoration: none;
     transition: background-color 0.25s;
 }
@@ -218,9 +210,6 @@ a {
 #filter ul li{
 	display: inline-block;
 }
-#filter ul li:hover{
-	background-color: #FFF;
-}
 #filter ul li a,visited{
 	display: block;
 	padding: 10px;
@@ -251,9 +240,6 @@ a {
     background-color: #DFD1C7;
     max-height: 200px;
     overflow-x: hidden;
-}
-#filter ul ul li a:hover{
-	background-color: #F9F9F9;
 }
 #filter ul li:hover ul li a, visited{
 	color: #000;

@@ -39,7 +39,7 @@ class Mosaic < ActiveRecord::Base
   # end
   
   def self.to_csv
-    attributes = %w{id steps grid step_counter completed number_of_colors dominant_color}
+    attributes = %w{id steps grid step_counter completed number_of_colors width height time_total}
 
     CSV.generate(headers: true) do |csv|
       csv << attributes

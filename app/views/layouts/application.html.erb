@@ -21,7 +21,7 @@
             <%=link_to "Sign out", signout_path, id: "sign_out" %>
           </li>
         <% else %>
-          <li style="float: right;"><%=link_to image_tag("/images/google_signin_2x.png", "width" => "200em"), "/auth/google_oauth2", id: "sign_in" %></li>
+          <li style="float: right; padding-right: 1em;"><%=link_to image_tag("/images/google_signin_2x.png", "height" => "32em"), "/auth/google_oauth2", id: "sign_in", :style => "padding: 0;" %></li>
         <% end %>
         <li style="float: right; width: 1em; height: 100%; border-left: black solid 2px;"></li>
         <li style="float: right; width: 1em; height: 100%;"></li>
