@@ -97,24 +97,43 @@ RSpec.describe MosaicsController, type: :controller do
         end
         
         it "should not complete mosaics" do 
-            params = {:completed => " "}
+            params = {:completed => "nil"}
             get :gallery
             #expect(:check).to be_falsey
         end
         
         it "should complete mosaics" do 
+            session[:user_id] = 123
             params = {:completed => "true"}
             get :gallery
             expect(:check).to be_truthy
+            #expect(Mosaic).to receive(:where).with({:completed => "true", :user => "123"})
+            #assigns(:mosaics).should be_a Mosaic
         end
         
-        it "should check numcolors" do
+        it "should check if numcolors" do
             session[:user_id] = 123
-            #@fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grids => Array.new, :user => 123)
-            params = {:numcolors => 3}
-            get :gallery
-            #expect(:mosaics).to respond_to "123"
+            @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 3, :grids => Array.new, :user => 123)
+            get :gallery, params: {:numcolors => 3, :completed => false}
+            assigns(:mosaics).should_not be_nil
+            expect(Mosaic).to receive(:where)#.with({:step_counter=>["3"]}).and_return(@fake_mosaic)
+        end
+        
+        it "should check if nummoves" do 
+            get :gallery, params = {:nummoves => 4, :completed => false}
+            assigns(:movenum).should eq("4")
+            assigns(:mosaics).should_not be_nil
+            #expect(Mosaic).to receive(:where).with({:id=>["id"]}).and_return(@mock_mosaic)
+        end
+        
+        it "should check if dominant" do 
+            get :gallery, params = {:dominant => "some_color"}
+            assigns(:mosaics).should_not be_nil
         end
     end
+    
+    #describe "Mosaic params" do
+        #it "should require mosaic and permit things" do
+            #should permit(:grid, :steps, :step_counter, :grid_array, :completed, :number_of_colors, :dominant_color)
         
 end		 
