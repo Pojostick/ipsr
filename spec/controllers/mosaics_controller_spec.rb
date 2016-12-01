@@ -46,6 +46,12 @@ RSpec.describe MosaicsController, type: :controller do
       expect{ get 'show', {id: 1}}.not_to raise_error
     end
     
+    it "should block unauthorized users from viewing other mosaics" do
+        session[:user_id] = 0
+        get 'show', {id: 1}
+        expect(response.body).to eq "<html>You do not have permissions to view this mosaic.</html>"
+    end
+    
     it "should be able to autosave" do
       expect{ get 'autosave', {:mosaic_id => 1, :time => Time.now.asctime, :tileId => "1", :color => "#302988"}}.not_to raise_error
     end
@@ -89,4 +95,52 @@ RSpec.describe MosaicsController, type: :controller do
         end
         
     end
+    
+    describe "Gallery" do 
+        it "should check mosaics" do
+            params = {:checked => "fake mosaic data"}
+            get :gallery
+            expect(:checked_mosaics).to be_truthy
+        end
+        
+        it "should not complete mosaics" do 
+            params = {:completed => "nil"}
+            get :gallery
+            #expect(:check).to be_falsey
+        end
+        
+        it "should complete mosaics" do 
+            session[:user_id] = 123
+            params = {:completed => "true"}
+            get :gallery
+            expect(:check).to be_truthy
+            #expect(Mosaic).to receive(:where).with({:completed => "true", :user => "123"})
+            #assigns(:mosaics).should be_a Mosaic
+        end
+        
+        it "should check if numcolors" do
+            session[:user_id] = 123
+            @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 3, :grids => Array.new, :user => 123)
+            get :gallery, params: {:numcolors => 3, :completed => false}
+            assigns(:mosaics).should_not be_nil
+            expect(Mosaic).to receive(:where)#.with({:step_counter=>["3"]}).and_return(@fake_mosaic)
+        end
+        
+        it "should check if nummoves" do 
+            get :gallery, params = {:nummoves => 4, :completed => false}
+            assigns(:movenum).should eq("4")
+            assigns(:mosaics).should_not be_nil
+            #expect(Mosaic).to receive(:where).with({:id=>["id"]}).and_return(@mock_mosaic)
+        end
+        
+        it "should check if dominant" do 
+            get :gallery, params = {:dominant => "some_color"}
+            assigns(:mosaics).should_not be_nil
+        end
+    end
+    
+    #describe "Mosaic params" do
+        #it "should require mosaic and permit things" do
+            #should permit(:grid, :steps, :step_counter, :grid_array, :completed, :number_of_colors, :dominant_color)
+        
 end		 
