@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128022406) do
+
+ActiveRecord::Schema.define(version: 20161130191644) do
 
   create_table "mosaics", force: :cascade do |t|
     t.string   "grid"
@@ -24,6 +25,9 @@ ActiveRecord::Schema.define(version: 20161128022406) do
     t.integer  "number_of_colors"
     t.string   "dominant_color"
     t.integer  "user_id"
+    t.integer  "time_taken"
+    t.integer  "time_left"
+    t.integer  "time_submitted"
   end
 
   add_index "mosaics", ["user_id"], name: "index_mosaics_on_user_id"
