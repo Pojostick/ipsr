@@ -1,10 +1,14 @@
-When(/^I filter by "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+When (/^I filter by "([^"]*)" and select "([^"]*)" and I filter by "([^"]*)" and select "([^"]*)" and I filter by "([^"]*)" and select "([^"]*)" and I filter by "([^"]*)" and select "([^"]*)" and I press "([^"]*)"$/) do |e1, e2, e3, e4, e5, e6, e7, e8, e9|
+    
 end
 
-When(/^select "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
+# When(/^I filter by "([^"]*)"$/) do |option|
+#   params[:option] => option
+# end
+
+# When(/^select "([^"]*)"$/) do |range|
+#   params[params[:option].to_sym] => range
+# end
 
 Then(/^I should see mosaics with grid: "([^"]*)"$/) do |grid|
   grid = grid + " transparent"*(79 - grid.count(' '))

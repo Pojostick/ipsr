@@ -3,6 +3,7 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     = javascript_include_tag "gallery.js"
   %body
+    %h3{:align => "center", :style => "color: red;"} #{flash[:notice]}
     #wrapper
       #filter
         %ul

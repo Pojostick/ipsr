@@ -7,7 +7,7 @@ RSpec.describe Mosaic, type: :model do
     end
     
     it "should have to_csv method" do
-      expect(Mosaic.to_csv).to have(11).items
+      expect(Mosaic.to_csv).to have(104).items
     end
     
 end

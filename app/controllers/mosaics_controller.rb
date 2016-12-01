@@ -10,6 +10,9 @@ class MosaicsController < ApplicationController
     @all_colors = Mosaic.colors
     redirect_to :controller => :mosaics, :action => :new and return unless params[:mosaic_id]
     @mosaic = Mosaic.find params[:mosaic_id]
+    if @mosaic.user_id != session[:user_id]
+      render :html => "<center><h1 style='color: red;'>You do not have permissions to edit this mosaic.</h1></center>".html_safe
+    end
   end
   
   # Create before test and put id into session hash
@@ -37,7 +40,7 @@ class MosaicsController < ApplicationController
       render "new" and return
     end
     @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * @width * @height).strip!, :steps => Array.new, :step_counter => 0, :user => @current_user, :completed => false, :number_of_colors => "0", :width => @width, :height => @height, :time_total => @time_total, :time_left => 60 * @time_total, :time_taken => -1)
+    @mosaic.update_attributes!(:grid => ('transparent ' * @width * @height).strip!, :steps => Array.new, :step_counter => 0, :user_id => session[:user_id], :completed => false, :number_of_colors => "0", :width => @width, :height => @height, :time_total => @time_total, :time_left => 60 * @time_total, :time_taken => -1)
     redirect_to :controller => :mosaics, :action => :index, :mosaic_id => @mosaic.id
   end
   
@@ -47,8 +50,8 @@ class MosaicsController < ApplicationController
     @mosaic = Mosaic.find params[:mosaic_id]
     return if @mosaic.time_taken > -1
     if params[:time_taken]
-      @mosaic.update_attributes!({:time_taken => params[:time_taken].to_i, :time_left => -1, :time_submitted => Time.now})
-      return
+      @mosaic.update_attributes!({:time_taken => params[:time_taken].to_i, :time_left => 0, :time_submitted => Time.now})
+      redirect_to :controller => :mosaics, :action => :show, :id => params[:mosaic_id]
     end
     begin
       index = params[:index].to_i
@@ -84,7 +87,7 @@ class MosaicsController < ApplicationController
   def show
     @mosaic = Mosaic.find(params[:id])
     if @mosaic.user_id != session[:user_id]
-      render :text => "<html>You do not have permissions to view this mosaic.</html>".html_safe
+      render :html => "<center><h1 style='color: red;'>You do not have permissions to view this mosaic.</h1></center>".html_safe
     end
   end
   
@@ -96,26 +99,25 @@ class MosaicsController < ApplicationController
     else
       @checked_mosaics = " "
     end
-    
+
     # filter
-    @completed  = convert(params[:completed]  || session[:completed]  || '80-100')
-    @numcolors  = convert(params[:numcolors]  || session[:numcolors]  || '5-10')
-    @nummoves   = convert(params[:nummoves]   || session[:nummoves]   || '60-120')
-    @time_total = convert(params[:time_total] || session[:time_total] || '0-15')
-    session[:completed]  = @completed 
-    session[:numcolors]  = @numcolors 
-    session[:nummoves]   = @nummoves  
-    session[:time_total] = @time_total
+    session[:completed]  = @completed  = params[:completed]  || session[:completed]  || '80-100'
+    session[:numcolors]  = @numcolors  = params[:numcolors]  || session[:numcolors]  || '5-10'
+    session[:nummoves]   = @nummoves   = params[:nummoves]   || session[:nummoves]   || '60-120'
+    session[:time_taken] = @time_taken = params[:time_taken] || session[:time_taken] || '0-15'
+    @completed  = convert(@completed)
+    @numcolors  = convert(@numcolors)
+    @nummoves   = convert(@nummoves)
+    @time_taken = convert(@time_taken)
     
-    @APPDATA = {:complete_low => @completed.respond_to?(:first) ? @completed.first : @completed, :complete_high => @completed.respond_to?(:first) ? @completed.last : @completed, :colorcount_low => @numcolors.respond_to?(:first) ? @numcolors.first : @numcolors, :colorcount_high => @numcolors.respond_to?(:first) ? @numcolors.last : @numcolors, :movescount_low => @nummoves.respond_to?(:first) ? @nummoves.first : @nummoves, :movescount_high => @nummoves.respond_to?(:first) ? @nummoves.last : @nummoves, :timetaken_low => @time_total.respond_to?(:first) ? @time_total.first : @time_total, :timetaken_high => @time_total.respond_to?(:first) ? @time_total.last : @time_total}
-    puts @APPDATA
+    @APPDATA = {:complete_low => @completed.respond_to?(:first) ? @completed.first : @completed, :complete_high => @completed.respond_to?(:last) ? @completed.last : @completed, :colorcount_low => @numcolors.respond_to?(:first) ? @numcolors.first : @numcolors, :colorcount_high => @numcolors.respond_to?(:last) ? @numcolors.last : @numcolors, :movescount_low => @nummoves.respond_to?(:first) ? @nummoves.first : @nummoves, :movescount_high => @nummoves.respond_to?(:last) ? @nummoves.last : @nummoves, :timetaken_low => @time_taken.respond_to?(:first) ? @time_taken.first : @time_taken, :timetaken_high => @time_taken.respond_to?(:last) ? @time_taken.last : @time_taken}
+
     search_params = Hash.new
-    search_params[:user_id]    = session[:user_id]
-    search_params[:completed]  = @completed
-    search_params[:number_of_colors]  = @numcolors
-    search_params[:step_counter]   = @nummoves
-    search_params[:time_total] = @time_total
-    puts "complited range is #{search_params}"
+    search_params[:user_id] = session[:user_id]
+    search_params[:completed] = @completed
+    search_params[:number_of_colors] = @numcolors
+    search_params[:step_counter] = @nummoves
+    search_params[:time_taken] = @time_taken
     @mosaics = Mosaic.where(search_params)
     
     session[:checked_mosaics] = @checked_mosaics.split(" ").map { |s| s.to_i }.uniq

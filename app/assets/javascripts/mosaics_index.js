@@ -84,21 +84,26 @@ $( function() {
             opacity: 0.75
         })
         .addClass("ui-widget-content");
+    
+    var hide = function(color) {
+        $(".block").draggable("disable");
+        $("#timer").text("Submitting...");
+        $("#timer-bar").progressbar("value", 0);
+        $("#timer-bar > div").css("background-color", color);
+        hide_time = show_time = function() {};
+    }
 
     submit = function(timeout) {
         if (time == -1) return;
         $.ajax({
             type: "POST",
             url: "/mosaics/autosave",
-            data: { time_taken: TIME - time }
+            data: { mosaic_id: id,
+                    time_taken: Math.round((TIME - time) / 60) }
         });
         time = -1;
-        $(".block").draggable("disable");
+        hide("#fb8");
         $("#timer").css("cursor", "wait");
-        $("#timer").text("Submitting test...");
-        $("#timer-bar").progressbar("value", 100);
-        $("#timer-bar > div").css("background-color", "#fb8");
-        hide_time = show_time = function() {};
         clearTimeout(timer);
         alert((timeout ? "Time's up. Thanks for completing" : "Thanks for submitting") + " your mosaic!");
         window.location.href = "/mosaics/" + id;
@@ -133,4 +138,12 @@ $( function() {
             submit(true);
         }
     }, 0);
+    
+    if (total == 0) {
+        hide("#afa");
+        $("#timer").text("Submitted.");
+        submit = function(timeout) {
+            window.location.href = "/mosaics/" + id;
+        }
+    }
 });

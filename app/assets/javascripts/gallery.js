@@ -71,7 +71,7 @@ $( function() {
         if ($('#movescountslider').slider('values', 1) > 200) {
             url += '+';
         }
-        url += '&time_total=' + $('#timetakenslider').slider('values', 0) + "-" + $('#timetakenslider').slider('values', 1);
+        url += '&time_taken=' + $('#timetakenslider').slider('values', 0) + "-" + $('#timetakenslider').slider('values', 1);
         window.location.href = url;
     });
 });

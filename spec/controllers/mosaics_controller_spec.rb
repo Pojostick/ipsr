@@ -89,7 +89,7 @@ RSpec.describe MosaicsController, type: :controller do
         end
     end
     
-    decribe "Filter Mosaic" do
+    describe "Filter Mosaic" do
         before :each do
             @mock_mosaic = double('Mosaic', {:steps => '[]', :grid => 'transparent', :step_counter => "1", })
         end
@@ -127,7 +127,7 @@ RSpec.describe MosaicsController, type: :controller do
         end
         
         it "should check if nummoves" do 
-            get :gallery, params = {:nummoves => 4, :completed => false}
+            get :gallery, params = {:nummoves => "4-6", :completed => false}
             assigns(:movenum).should eq("4")
             assigns(:mosaics).should_not be_nil
             #expect(Mosaic).to receive(:where).with({:id=>["id"]}).and_return(@mock_mosaic)

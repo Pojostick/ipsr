@@ -218,18 +218,11 @@ $( function() {
     var render = function() {
         requestAnimationFrame(render);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        var overlay = [];
-        for (var key in tiles) {
-            var tile = tiles[key];
-            if (tile.animation) {
-                overlay.push(tile);
-            } else {
-                tile.draw(ctx);
-            }
+        for (var i = 0; i < WIDTH * HEIGHT; i++) {
+            if (grid[i]) grid[i].draw(ctx);
         }
-        for (var i = 0; i < overlay.length; i++) {
-            var tile = overlay[i];
-            tile.draw(ctx);
+        for (var key in tiles) {
+            tiles[key].draw(ctx);
         }
     };
     
