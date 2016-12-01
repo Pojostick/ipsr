@@ -1,12 +1,7 @@
 %html
   %body
     #centerer.centerer
-      =form_tag(:controller => :mosaics, :action => :new) do
-        %label{:for => "mosaic_id"} Mosaic ID (do not change this unless you know what you are doing!)
-        %br
-        %input{:type => "number", :name => "mosaic_id", :value => "#{@mosaic.id}"}
-        %br
-        %hr
+      =form_tag({:controller => :mosaics, :action => :new}, {:method => :get}) do
         %label{:for => "info"} Instructions for the subject:
         %br
         %textarea{:type => "text", :name => "info", :style => "width: 25em; height: 5em;"}
@@ -14,12 +9,14 @@
         %br
         %br
         %label{:for => "width"} Width:
-        %input{:type => "number", :name => "width", :value => 10}
+        %input{:type => "number", :name => "width", :value => @width}
         %br
         %label{:for => "height"} Height:
-        %input{:type => "number", :name => "height", :value => 8}
+        %input{:type => "number", :name => "height", :value => @height}
         %br
         %label{:for => "time"} Time in minutes:
-        %input{:type => "number", :name => "time", :value => 30}
+        %input{:type => "number", :name => "time", :value => @time_total}
         %br
         =submit_tag "Create Mosaic"
+        %br
+        %h3{:align => "center", :style => "color: red;"} #{flash[:notice]}

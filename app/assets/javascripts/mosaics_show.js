@@ -10,7 +10,9 @@ $( function() {
 
     // HACKY BYPASS
     var steps = $("#APPDATA").attr("steps");
-    
+    var WIDTH = parseInt($("#APPDATA").attr("width"));
+    var HEIGHT = parseInt($("#APPDATA").attr("height"));
+
     /** Initialize Variables */
     var COLOR = ['#0173b5', '#edbd10', '#995159', '#f7bb62', '#4c306d', '#9b0a2f', '#413096', '#93d6a7', '#8c6248', '#d65a31', '#ffffff', '#0a0a0a', '#560636', '#9bbddb', '#f4ed90', '#380d09', '#8e8e99', "#c17d58", '#2b6855', '#f7d9e3', '#b57dc6', '#173f37'];
     var grid = [];
@@ -18,8 +20,6 @@ $( function() {
     var ID = 0;
     var SIZE = 60;
     var STEPS = 250;
-    var WIDTH = 10;
-    var HEIGHT = 8;
     var DASHES = [];
     var canvas = document.getElementById("display");
     var ctx = canvas.getContext("2d");

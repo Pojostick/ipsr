@@ -21,6 +21,7 @@ $( function() {
         if (colorData.substring(0, 3) == "rgb") {
             colorData = rgbToHex(colorData);
         }
+        console.log(time);
         $.ajax({
             type: "POST",
             url: "/mosaics/autosave",
@@ -28,7 +29,8 @@ $( function() {
                     index: indexData++,
                     tileFrom: tileFromData,
                     tileTo: tileToData,
-                    color:  colorData
+                    color:  colorData,
+                    time_left: time,
             }
         });
     }
@@ -85,6 +87,11 @@ $( function() {
 
     submit = function(timeout) {
         if (time == -1) return;
+        $.ajax({
+            type: "POST",
+            url: "/mosaics/autosave",
+            data: { time_taken: TIME - time }
+        });
         time = -1;
         $(".block").draggable("disable");
         $("#timer").css("cursor", "wait");
@@ -97,8 +104,9 @@ $( function() {
         window.location.href = "/mosaics/" + id;
     }
     
-    var TIME = 1800;
-    var time = TIME;
+    var TIME = 60 * parseInt($("#APPDATA").attr("time_total"));
+    var total = parseInt($("#APPDATA").attr("time_left"));
+    var time = total;
     var start = Date.now();
     
     hide_time = function() {
@@ -118,10 +126,10 @@ $( function() {
                           function() {update = hide_time; update()});
     timer = setTimeout(function progress() {
         if (time > 0) {
-            time = TIME - Math.floor((Date.now() - start) / 1000);
+            time = total - Math.floor((Date.now() - start) / 1000);
             timer = setTimeout(progress, 1000);
             update();
-        } else {
+        } else if (total > 0) {
             submit(true);
         }
     }, 0);

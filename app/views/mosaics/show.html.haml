@@ -10,4 +10,4 @@
     #centerer.centerer
       #mosaic.mosaic
         %canvas{:id => "display", :style => "border: 3px ridge rgba(127, 127, 127, 0.5); background-color: rgba(127, 127, 127, 0.25);"}
-  %div{:id => "APPDATA", :steps => "#{@mosaic.steps.map{|h| "#{h[:tileFrom]} #{h[:tileTo]} #{h[:color]}"}.join(',')}", :style => "display: none;"}
+  %div{:id => "APPDATA", :width => "#{@mosaic.width}", :height => "#{@mosaic.height}", :steps => "#{@mosaic.steps.map{|h| "#{h[:tileFrom]} #{h[:tileTo]} #{h[:color]}"}.join(',')}", :style => "display: none;"}

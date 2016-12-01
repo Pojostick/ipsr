@@ -14,15 +14,15 @@
     #centerer.centerer
       #mosaic.mosaic
         %table{:align => "center"}
-          - @mosaic.grid.split.each_slice(10).with_index do |slice, row|
+          - @mosaic.grid.split.each_slice(@mosaic.width).with_index do |slice, row|
             %tr
               - slice.each_with_index do |color, column|
                 %td{:align => "center"}
                   - if color == 'transparent'
-                    .block{:id => 10 * row + column}
+                    .block{:id => @mosaic.width * row + column}
                   - else
-                    .block{:id => 10 * row + column, :style => "background-color: #{color};"}
-    %div{:id => "APPDATA", :mosaic_id => @mosaic.id, :style => "display: none;"}
+                    .block{:id => @mosaic.width * row + column, :style => "background-color: #{color};"}
+    %div{:id => "APPDATA", :mosaic_id => @mosaic.id, :time_left => @mosaic.time_left, :time_total => @mosaic.time_total, :style => "display: none;"}
     %li{:id => "submitbutton", :style => "float: right;"}
       %div{:id => "timer-bar", :style => "width: 5em; height: 1.5em;"}
         %div{:id => "timer", :style => "margin: 0px; height: 1.5em", :onclick => 'submit();'}

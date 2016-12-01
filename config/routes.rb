@@ -34,7 +34,6 @@ Rails.application.routes.draw do
   resources :mosaics
   get 'gallery', :to => 'mosaics#gallery', :as => :gallery
   post 'mosaics/autosave', :to => 'mosaics#autosave', :as => :autosave
-  post 'mosaics/:id', :to => 'mosaics#download', :as => :download
   post 'gallery/download', :to => 'mosaics#download_gallery', :as =>:download_gallery
   post 'gallery/downloadall', :to => 'mosaics#download_all', :as =>:download_all
   

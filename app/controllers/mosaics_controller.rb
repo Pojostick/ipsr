@@ -12,65 +12,69 @@ class MosaicsController < ApplicationController
       redirect_to :login and return
     end
     @all_colors = Mosaic.colors
-    unless params[:mosaic_id]
-      # Create a new mosaic and retrieve id
-      flash[:notice] = "No ID detected! "
-      flash.keep
-      redirect_to :controller => :mosaics, :action => :new and return
-    end
+    redirect_to :controller => :mosaics, :action => :new and return unless params[:mosaic_id]
     @mosaic = Mosaic.find params[:mosaic_id]
     # @scratchpad = ('transparent ' * 16)
   end
   
   # Create before test and put id into session hash
   def new
-    if params[:mosaic_id]
-      redirect_to :controller => :mosaics, :action => :index, :mosaic_id => params[:mosaic_id]
-    @mosaic = Mosaic.new
-    @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user_id => session[:user_id], :completed => false, :number_of_colors => "0", :dominant_color => "transparent")
-    if flash[:notice]
-      flash[:notice] += "Created test ##{@mosaic.id}"
-    else
-      @mosaic = Mosaic.new
-      @mosaic.update_attributes!(:grid => ('transparent ' * 80).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user => @current_user, :completed => false, :number_of_colors => "0", :dominant_color => "transparent")
-      if flash[:notice]
-        flash[:notice] += "Created test ##{@mosaic.id}"
-      else
-        flash[:notice] = "Created test ##{@mosaic.id}"
-      end
-      flash.keep
-      # redirect_to :controller => :mosaics, :action => :index, :mosaic_id => @mosaic.id
-      render "new"
+    @width = 10
+    @height = 8
+    @time_total = 30
+    render "new" and return if not (params[:width] and params[:height] and params[:time])
+    
+    @width = params[:width].to_i
+    @height= params[:height].to_i
+    @time_total = params[:time].to_i
+    
+    reason = ""
+    if @width < 1
+      reason = "Width must be positive"
+    elsif @height < 1
+      reason = "length must be positive"
+    elsif @time_total < 1
+      reason = "Time limit must be positive"
     end
+    
+    if reason != ""
+      flash[:notice] = "Error: #{reason}"
+      render "new" and return
+    end
+    @mosaic = Mosaic.new
+    @mosaic.update_attributes!(:grid => ('transparent ' * @width * @height).strip!, :steps => Array.new, :step_counter => 0, :grids => Array.new, :user => @current_user, :completed => false, :number_of_colors => "0", :dominant_color => "transparent", :width => @width, :height => @height, :time_total => @time_total, :time_left => 60 * @time_total, :time_taken => -1)
+    redirect_to :controller => :mosaics, :action => :index, :mosaic_id => @mosaic.id
   end
   
   # Called every 5 seconds OR (hard limit) number of moves
   # used to save latest changes while taking test
   def autosave
     @mosaic = Mosaic.find params[:mosaic_id]
-    if @mosaic.time_taken
-      return
-    end
-    time_taken = params[:time_taken]
-    if time_taken
-      @mosaic.update_attributes!({:time_taken => time_taken, :time_left => 0, :time_submitted => Time.now})
+    return if @mosaic.time_taken > -1
+    if params[:time_taken]
+      @mosaic.update_attributes!({:time_taken => params[:time_taken].to_i, :time_left => -1, :time_submitted => Time.now})
       return
     end
     begin
       index = params[:index].to_i
-      tileFrom = params[:tileFrom]
-      tileTo = params[:tileTo]
+      tileFrom = params[:tileFrom].to_i
+      tileTo = params[:tileTo].to_i
       color = params[:color]
+      time_left = params[:time_left].to_i
       @mosaic.steps[index] = {:tileFrom => tileFrom, :tileTo => tileTo, :color => color}
-      @mosaic.update_attributes!(:steps => @mosaic.steps)
+      @mosaic.update_attributes!({:steps => @mosaic.steps, :time_left => time_left})
+      
       # Update grid
-      if (tileTo && tileTo.to_i < 80) && (tileTo && tileTo.to_i >= 0)
-        newGrid = @mosaic.grid.split
-        newGrid[tileTo.to_i] = color
-        @mosaic.update_attributes!(:grid => newGrid.join(' '))
-        @mosaic.update_attributes!(:grids => @mosaic.grids.push(newGrid.join(' ')))
+      if (tileTo >= @mosaic.width * @mosaic.height) || (tileTo < -1) || (tileFrom >= @mosaic.width * @mosaic.height) || (tileFrom < -1)
+        flash[:notice] = "Invalid data"
+      else
+        if (tileTo < @mosaic.width * @mosaic.height) && (tileTo >= 0)
+          newGrid = @mosaic.grid.split
+          newGrid[tileTo.to_i] = color
+          @mosaic.update_attributes!(:grid => newGrid.join(' '))
+          @mosaic.update_attributes!(:grids => @mosaic.grids.push(newGrid.join(' ')))
+        end
       end
-      flash[:notice] = @mosaic.grid
     rescue
       flash[:notice] = "Invalid data"
     end
