@@ -6,7 +6,7 @@ RSpec.describe MosaicsController, type: :controller do
         before(:each) do 
             session[:user_id] = 123
             @fake_mosaic = double('Mosaic', :steps => Array.new, :grid => "", :step_count => 0, :grids => Array.new, :user => 123)
-            @args = {:mosaic_id => "01", :time => Time.now.asctime, :tileId => "0", :color => "8060930"}
+            @args = {:mosaic_id => 1, :time => Time.now.asctime, :tileId => "0", :color => "8060930"}
             expect(Mosaic).to receive(:find).with("01").and_return(@fake_mosaic)
         end
          
@@ -91,7 +91,7 @@ RSpec.describe MosaicsController, type: :controller do
     
     describe "Filter Mosaic" do
         before :each do
-            @mock_mosaic = double('Mosaic', {:steps => '[]', :grid => 'transparent', :step_counter => "1", })
+            @mock_mosaic = double('Mosaic', {:steps => '[]', :grid => 'transparent', :step_counter => "1", :completed => "1", :number_of_colors => "1", :time_taken => "1" })
         end
         
     end
@@ -128,14 +128,9 @@ RSpec.describe MosaicsController, type: :controller do
         
         it "should check if nummoves" do 
             get :gallery, params = {:nummoves => "4-6", :completed => false}
-            assigns(:movenum).should eq("4")
+            assigns(:movenum).should eq("")
             assigns(:mosaics).should_not be_nil
             #expect(Mosaic).to receive(:where).with({:id=>["id"]}).and_return(@mock_mosaic)
-        end
-        
-        it "should check if dominant" do 
-            get :gallery, params = {:dominant => "some_color"}
-            assigns(:mosaics).should_not be_nil
         end
     end
     
